@@ -10,7 +10,7 @@
     <div class="aboutBox">
       <div class="aboutItem">
         <p class="name">版本</p>
-        <p>1.0.0</p>
+        <p>1.0.0beta</p>
       </div>
       <div class="aboutItem">
         <p class="name">作者</p>
