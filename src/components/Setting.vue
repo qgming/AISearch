@@ -124,6 +124,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+h1 {
+  width: 600px;
+}
+
 .settingsContainer {
   padding: 10px;
   width: 100%;
@@ -134,6 +138,7 @@ onMounted(() => {
 .bankHome {
   width: 30px;
   height: 30px;
+  margin-left: -5px;
 }
 
 span {
@@ -150,12 +155,11 @@ span a {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  margin: 5px;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
   padding: 10px;
-  width: 600px;
+  width: 580px;
 }
 
 .rightOption {
@@ -183,9 +187,6 @@ span a {
 
 
 .settingItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 5px 0;
   border-bottom: 1px solid #e0e0e0;
   flex-wrap: wrap;
@@ -199,20 +200,11 @@ span a {
 
 .settingItem input {
   width: 100%;
-  padding: 5px;
+  padding: 2px;
   font-size: 14px;
   outline: none;
   color: gray;
   border: none;
-}
-
-.modelList {
-  width: 100%;
-  background-color: #f8f9fa;
-  padding: 5px;
-  margin: 2px;
-  border-radius: 9px;
-  border: 1px solid #e0e0e0
 }
 
 .aModel {
@@ -226,6 +218,15 @@ span a {
   justify-content: space-between;
   margin: 2px;
   flex-wrap: wrap;
+}
+
+.modelList {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 5px;
+  margin: 2px;
+  border-radius: 9px;
+  border: 1px solid #e0e0e0
 }
 
 .otherModelButton {
@@ -253,6 +254,10 @@ span a {
 
 /* 移动端适配 */
 @media (max-width: 600px) {
+  h1 {
+    width: 100%;
+  }
+
   .settingBox {
     padding: 5px;
     width: 100%;

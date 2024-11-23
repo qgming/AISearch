@@ -78,6 +78,7 @@ nav ul {
   display: flex;
   flex-direction: row;
   margin: 0;
+  margin-left: 10px;
   padding: 5px;
 }
 

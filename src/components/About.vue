@@ -5,20 +5,18 @@
     <div class="aboutBox">
       <img src="/src/assets/logo.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
-      <p>1.0.0</p>
+      <p>1.0.0beta</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">
-        <p class="name">版本</p>
-        <p>1.0.0beta</p>
-      </div>
-      <div class="aboutItem">
-        <p class="name">作者</p>
-        <p>极点维度</p>
-      </div>
-      <div class="aboutItem">
-        <p class="name">描述</p>
-        <p>一款使用大模型技术的搜素引擎，支持联网搜索，深度思考，生成图表等功能。</p>
+        <div class="functionItem">
+          <p class="function">联网搜索</p>
+          <p class="function">深度思考</p>
+        </div>
+        <div class="functionItem">
+          <p class="function">文字转图表</p>
+          <p class="function">自定义大模型</p>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +33,10 @@ const goToHome = () => {
 </script>
 
 <style scoped>
+h1 {
+  width: 600px;
+}
+
 .aboutContainer {
   padding: 10px;
   width: 100%;
@@ -45,6 +47,7 @@ const goToHome = () => {
 .bankHome {
   width: 30px;
   height: 30px;
+  margin-left: -5px;
 }
 
 .aboutBox {
@@ -53,7 +56,6 @@ const goToHome = () => {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  margin: 5px;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
@@ -77,12 +79,30 @@ const goToHome = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 5px 0;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .aboutItem p {
   font-size: 16px;
+}
+
+.functionItem {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.function {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f5fa;
+  border-radius: 9px;
+  height: 50px;
+  width: 250px;
+  padding: 5px;
+  margin: 5px;
 }
 
 .name {
@@ -91,6 +111,10 @@ const goToHome = () => {
 
 /* 移动端适配 */
 @media (max-width: 600px) {
+  h1 {
+    width: 100%;
+  }
+
   .aboutBox {
     padding: 5px;
   }
@@ -107,6 +131,10 @@ const goToHome = () => {
 
   .aboutItem p {
     font-size: 14px;
+  }
+
+  .function {
+    width: 100px;
   }
 
   .name {
