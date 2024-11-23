@@ -391,9 +391,29 @@ function copyContent(content) {
   });
 }
 
+// 确保在需要的时候动态应用样式
+function applyDynamicStyles() {
+  document.querySelectorAll('.md-editor-preview-wrapper').forEach(el => {
+    el.style.padding = '5px';
+  });
+}
+
+// 使用 MutationObserver 监听 DOM 变化
+function observeDOMChanges() {
+  const observer = new MutationObserver(() => {
+    applyDynamicStyles();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+
 onMounted(() => {
+  applyDynamicStyles(); // 应用动态样式
+  observeDOMChanges(); // 监听 DOM 变化
   scrollToBottom(); // 组件挂载时滚动到底部
   readPromptFile(); // 调用读取提示词
+
   readChartPromptFile(); // 读取 chart 提示词
   //本地获取API配置信息
   const savedLargeModel = localStorage.getItem('largeModel');
@@ -452,7 +472,7 @@ window.addEventListener('beforeunload', () => {
 }
 
 .md-editor-preview-wrapper {
-  padding: 2px;
+  padding: 5px;
 }
 
 .chart.zoomed {
@@ -594,7 +614,7 @@ window.addEventListener('beforeunload', () => {
   padding: 4px;
   background-color: #f5f5f5;
   border-radius: 9px;
-  margin: 0 0 0 10px;
+  margin-right: 5px;
   border: 2px solid #f8f9fa;
   transition: transform 0.3s ease;
   transition: border-color 0.3s ease;
@@ -644,7 +664,7 @@ window.addEventListener('beforeunload', () => {
   }
 
   .inputField {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .optionButton {
@@ -654,8 +674,8 @@ window.addEventListener('beforeunload', () => {
   }
 
   .optionButton img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 }
 </style>

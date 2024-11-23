@@ -125,7 +125,8 @@ main {
 .searchBar img {
   width: 20px;
   height: 20px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 2px;
 }
 
 .searchBar input {
@@ -133,7 +134,7 @@ main {
   max-width: 600px;
   border-radius: 9px;
   font-size: 18px;
-  padding: 10px;
+  padding: 8px;
   border: none;
   outline: none;
 }
