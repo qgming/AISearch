@@ -22,7 +22,8 @@ GUIDELINES FOR THOUGHT PROCESS
 - Identify explicit requirements, constraints, and success criteria.
 - Map out gaps in information or areas needing further clarification.
 
-3.  Exploration of Approaches- Generate multiple interpretations of the question.
+3.  Exploration of Approaches
+- Generate multiple interpretations of the question.
 - Consider alternative solutions and perspectives.
 - Avoid prematurely committing to a single path.
 
