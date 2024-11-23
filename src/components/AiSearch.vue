@@ -86,11 +86,10 @@ const chartContent = ref('');
 const lastChartIndex = ref(null); // 新增变量记录最后生成图表的消息索引
 const generatingChart = ref(false); // 新增变量表示正在生成图表
 
-// //配置
-// const aiModel = ref('deepseek-chat');
-// const aiKey = ref('sk-472acb3c00e74ecdabf884f0467e5c29')
-// const aiProvider = ref('https://api.deepseek.com')
-// const webKey = ref('8c10e72abd33616fbf3980dc348e2ba29b4fa452')
+// 默认API配置
+const defaultApiKey = '03da359c49454d6734e2a5de8dbb9a37.kJEgAv0s4DdM9ti0';
+const defaultApiProvider = 'https://open.bigmodel.cn/api/paas/v4/';
+const defaultModel = 'glm-4-flash';
 
 // 配置
 const aiModel = ref('');
@@ -98,10 +97,10 @@ const aiKey = ref('');
 const aiProvider = ref('');
 const webKey = ref('');
 
-// 大模型配置（在初始化配置）
+// 大模型配置
 const openai = new OpenAI({
-  baseURL: aiProvider.value,
-  apiKey: aiKey.value,
+  baseURL: aiProvider.value || defaultApiProvider,
+  apiKey: aiKey.value || defaultApiKey,
   dangerouslyAllowBrowser: true
 });
 
@@ -413,15 +412,19 @@ onMounted(() => {
   observeDOMChanges(); // 监听 DOM 变化
   scrollToBottom(); // 组件挂载时滚动到底部
   readPromptFile(); // 调用读取提示词
-
   readChartPromptFile(); // 读取 chart 提示词
+
   //本地获取API配置信息
   const savedLargeModel = localStorage.getItem('largeModel');
   if (savedLargeModel) {
     const largeModelConfig = JSON.parse(savedLargeModel);
-    aiModel.value = largeModelConfig.model;
-    aiKey.value = largeModelConfig.key;
-    aiProvider.value = largeModelConfig.provider;
+    aiModel.value = largeModelConfig.model || defaultModel; // 使用默认模型
+    aiKey.value = largeModelConfig.key || defaultApiKey; // 使用默认API密钥
+    aiProvider.value = largeModelConfig.provider || defaultApiProvider; // 使用默认API提供者
+  } else {
+    aiKey.value = defaultApiKey;
+    aiProvider.value = defaultApiProvider;
+    aiModel.value = defaultModel;
   }
 
   const savedWebSearch = localStorage.getItem('webSearch');

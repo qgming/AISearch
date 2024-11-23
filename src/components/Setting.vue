@@ -10,7 +10,7 @@
       </div>
       <div class="settingItem">
         <p>Key</p>
-        <input type="text" placeholder="请输入Key" v-model="largeModel.key" />
+        <input type="password" placeholder="请输入Key" v-model="largeModel.key" />
       </div>
       <div class="settingItem">
         <p>模型</p>
@@ -20,6 +20,9 @@
         <button @click="saveLargeModel">添加到备选</button>
         <button @click="applyLargeModel">确定</button>
       </div>
+    </div>
+    <div class="settingBox">
+      <p>默认使用智谱AI（glm-4-flash），由<a href="https://open.bigmodel.cn/" target="_blank">智谱AI</a>提供免费服务</p>
     </div>
     <p>备选大模型</p>
     <div class="settingBox">
@@ -40,7 +43,7 @@
         </div>
       </div>
     </div>
-    <p>网络搜索<span>支持<a href="https://serper.dev/" target="_blank">Serper</a>谷歌搜索服务</span></p>
+    <p>网络搜索</p>
     <div class="settingBox">
       <div class="settingItem">
         <p>Key</p>
@@ -49,7 +52,9 @@
       <div class="rightOption">
         <button @click="saveWebSearch">确定</button>
       </div>
-
+    </div>
+    <div class="settingBox">
+      <p>默认无网络搜索服务，请配置<a href="https://serper.dev/" target="_blank">Serper</a>谷歌搜索API</p>
     </div>
   </div>
 </template>
@@ -143,7 +148,7 @@ span {
   color: #b2afaf;
 }
 
-span a {
+a {
   text-decoration: none;
 }
 
