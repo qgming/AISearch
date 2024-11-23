@@ -124,13 +124,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-h1 {
-  width: 600px;
-}
-
 .settingsContainer {
   padding: 10px;
-  width: 100%;
+  width: 100vw;
   max-width: 600px;
   height: 100vh;
 }
@@ -159,7 +155,8 @@ span a {
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
   padding: 10px;
-  width: 580px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .rightOption {
@@ -200,7 +197,6 @@ span a {
 
 .settingItem input {
   width: 100%;
-  padding: 2px;
   font-size: 14px;
   outline: none;
   color: gray;
@@ -210,14 +206,15 @@ span a {
 .aModel {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .otherModel {
   display: flex;
   justify-content: space-between;
   margin: 2px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
 }
 
 .modelList {
@@ -254,13 +251,12 @@ span a {
 
 /* 移动端适配 */
 @media (max-width: 600px) {
-  h1 {
-    width: 100%;
+  .settingsContainer {
+    width: 100vw;
   }
 
   .settingBox {
     padding: 5px;
-    width: 100%;
   }
 
   .settingItem p {
@@ -268,6 +264,7 @@ span a {
   }
 
   .settingItem input {
+    width: 100%;
     font-size: 12px;
   }
 
@@ -280,6 +277,8 @@ span a {
   .modelList,
   .aModel {
     font-size: 14px;
+    box-sizing: border-box;
+    /* 确保内边距不会导致宽度超出 */
   }
 }
 </style>

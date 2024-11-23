@@ -33,13 +33,9 @@ const goToHome = () => {
 </script>
 
 <style scoped>
-h1 {
-  width: 600px;
-}
-
 .aboutContainer {
   padding: 10px;
-  width: 100%;
+  width: 100vw;
   max-width: 600px;
   height: 100vh;
 }
@@ -111,10 +107,6 @@ h1 {
 
 /* 移动端适配 */
 @media (max-width: 600px) {
-  h1 {
-    width: 100%;
-  }
-
   .aboutBox {
     padding: 5px;
   }
