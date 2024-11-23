@@ -63,6 +63,7 @@ const searchGoogle = () => {
   justify-content: center;
   text-align: center;
   height: 100vh;
+  width: 100vw;
   background-color: #f4f5fa;
 }
 
@@ -89,8 +90,12 @@ nav ul li {
 }
 
 main {
-  margin-bottom: 30%;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10%;
+  padding: 5px;
 }
 
 .logo img {
@@ -126,6 +131,7 @@ main {
 .searchBar input {
   width: 100%;
   max-width: 600px;
+  border-radius: 9px;
   font-size: 18px;
   padding: 10px;
   border: none;
@@ -180,19 +186,9 @@ footer {
 
 /* 移动端样式 */
 @media (max-width: 600px) {
-  main {
-    margin-top: 10%;
-    padding: 10px;
-  }
-
   .searchBar {
     margin-top: 20px;
     width: 100%;
-  }
-
-  .searchBar input {
-    width: 90%;
-    /* 在移动设备上进一步缩小输入框宽度 */
   }
 
   .buttons button {

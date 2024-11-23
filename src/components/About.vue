@@ -5,7 +5,7 @@
     <div class="aboutBox">
       <img src="/src/assets/logo.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
-      <p>1.0.0beta</p>
+      <p>1.0.0（beta1）</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">

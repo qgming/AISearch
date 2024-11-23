@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p class="title">极点AI</p>
+    <p class="title">极点AI搜索</p>
     <div ref="messagesContainer" class="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" class="message">
         <p><strong>{{ message.role }}:</strong>
@@ -440,7 +440,7 @@ window.addEventListener('beforeunload', () => {
 <style scoped>
 .chart {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 5px;
   background-color: #f9f9f9;
   border-radius: 12px;
@@ -462,7 +462,6 @@ window.addEventListener('beforeunload', () => {
   transform: translate(-50%, -50%);
   z-index: 1000;
   width: 90%;
-  height: 90%;
   background-color: white;
   border: 2px solid #9AA2AD;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -618,20 +617,30 @@ window.addEventListener('beforeunload', () => {
 /* 移动端样式 */
 @media (max-width: 600px) {
   .container {
-    width: 100%;
-    padding: 10px;
+    width: 98vw;
+    padding: 5px;
+  }
+
+  .chart {
+    margin-bottom: 5px;
   }
 
   .title {
     font-size: 14px;
   }
 
+  .messagesContainer {
+    margin-bottom: 70px;
+  }
+
   .message {
-    padding: 8px;
+    padding: 5px;
   }
 
   .searchBox {
-    padding: 8px;
+    padding: 5px;
+    bottom: 0px;
+    border-radius: 2px;
   }
 
   .inputField {

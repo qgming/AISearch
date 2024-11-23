@@ -212,7 +212,6 @@ span a {
 .otherModel {
   display: flex;
   justify-content: space-between;
-  margin: 2px;
   flex-direction: column;
   width: 100%;
 }
@@ -221,7 +220,7 @@ span a {
   width: 100%;
   background-color: #f8f9fa;
   padding: 5px;
-  margin: 2px;
+  margin-top: 5px;
   border-radius: 9px;
   border: 1px solid #e0e0e0
 }
@@ -234,7 +233,9 @@ span a {
 }
 
 .otherModelButton button {
-  margin: 2px;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-bottom: 5px;
   padding: 5px;
   width: 100px;
   border: none;
