@@ -23,7 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import NavBar from './NavBar.vue'; // 引入NavBar组件
+import NavBar from '../components/NavBar.vue'; // 引入NavBar组件
 
 const router = useRouter();
 const searchQuery = ref('');

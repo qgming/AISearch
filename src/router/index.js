@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import TheHome from "@/components/TheHome.vue";
-import AiSearch from "@/components/AiSearch.vue";
-import Setting from "@/components/Setting.vue";
-import About from "@/components/About.vue";
+import TheHome from "@/views/TheHome.vue";
+import AiSearch from "@/views/AiSearch.vue";
+import Setting from "@/views/Setting.vue";
+import About from "@/views/About.vue";
 
 const routes = [
   { path: "/", component: TheHome },

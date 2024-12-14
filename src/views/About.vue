@@ -5,7 +5,7 @@
     <div class="aboutBox">
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
-      <p>1.0.0（beta5）</p>
+      <p>1.0.0（beta6）</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">
@@ -24,7 +24,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'; // 导入 useRouter
-import NavBar from './NavBar.vue';
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter(); // 获取 router 实例
 

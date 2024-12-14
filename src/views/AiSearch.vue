@@ -4,7 +4,7 @@
     <p class="title">极点AI搜索</p>
     <div ref="messagesContainer" class="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <img class="roleIcon" :src="message.role === 'user' ? '/src/assets/logo.svg' : '/src/assets/send.svg'" alt="角色图标" style="width: 24px; height: 24px; margin-right: 5px;" />
+        <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标" style="width: 24px; height: 24px; margin-right: 5px;" />
         <div>
          <MdPreview :modelValue="message.content" />
          <div class="contentOption">
@@ -63,7 +63,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import NavBar from './NavBar.vue';
+import NavBar from '../components/NavBar.vue';
 import OpenAI from 'openai';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';

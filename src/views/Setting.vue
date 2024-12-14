@@ -63,7 +63,7 @@
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
-import NavBar from './NavBar.vue';
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter(); // 获取 router 实例
 
