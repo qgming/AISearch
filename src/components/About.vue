@@ -1,11 +1,11 @@
 <template>
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
   <div class="aboutContainer">
-    <img class="bankHome" @click="goToHome" src="/src/assets/bankbutton.svg" alt="返回">
     <h1>关于</h1>
     <div class="aboutBox">
-      <img src="/src/assets/logo.svg" alt="" class="logo">
+      <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
-      <p>1.0.0（beta4）</p>
+      <p>1.0.0（beta5）</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">
@@ -24,12 +24,20 @@
 
 <script setup>
 import { useRouter } from 'vue-router'; // 导入 useRouter
+import NavBar from './NavBar.vue';
 
 const router = useRouter(); // 获取 router 实例
 
 const goToHome = () => {
   router.push('/');
 };
+const goToSetting = () => {
+  router.push('/setting');
+};
+const goToAbout = () => {
+  router.push('/about');
+};
+
 </script>
 
 <style scoped>
@@ -39,13 +47,6 @@ const goToHome = () => {
   max-width: 600px;
   height: 100vh;
 }
-
-.bankHome {
-  width: 30px;
-  height: 30px;
-  margin-left: -5px;
-}
-
 .aboutBox {
   display: flex;
   flex-direction: column;
@@ -53,7 +54,7 @@ const goToHome = () => {
   align-items: center;
   margin-bottom: 10px;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ccc;
   background-color: #ffffff;
   padding: 10px;
 }

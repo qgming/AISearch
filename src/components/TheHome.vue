@@ -1,16 +1,9 @@
 <template>
   <div class="home">
-    <header>
-      <nav>
-        <ul>
-          <li @click="goToSetting">设置</li>
-          <li @click="goToAbout">关于</li>
-        </ul>
-      </nav>
-    </header>
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" />
     <main>
       <div class="logo">
-        <img src="/src/assets/logo.svg" alt="Google Logo">
+        <img src="/src/assets/send.svg" alt="Google Logo">
       </div>
       <div class="searchBar">
         <img src="/src/assets/searchH.svg" alt="搜索输入框">
@@ -30,6 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import NavBar from './NavBar.vue'; // 引入NavBar组件
 
 const router = useRouter();
 const searchQuery = ref('');
@@ -67,28 +61,6 @@ const searchGoogle = () => {
   background-color: #f4f5fa;
 }
 
-header {
-  text-align: right;
-  width: 100%;
-  position: fixed;
-  top: 0;
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-  margin-left: 10px;
-  padding: 5px;
-}
-
-nav ul li {
-  margin-right: 10px;
-  color: black;
-  font-size: large;
-}
-
 main {
   display: flex;
   align-items: center;
@@ -99,7 +71,7 @@ main {
 }
 
 .logo img {
-  width: 80px;
+  width: 100px;
 }
 
 .searchBar {
@@ -139,6 +111,7 @@ main {
   outline: none;
 }
 
+
 .searchIcons {
   display: flex;
   text-align: center;
@@ -169,13 +142,12 @@ main {
   border-radius: 4px;
   cursor: pointer;
   border: 2px solid #f8f9fa;
-  transition: border-color 0.3s ease;
-  /* 增加鼠标划过动画 */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .buttons button:hover {
   border: 2px solid #91CAE8;
-  /* 鼠标划过时边框颜色改变 */
+  background-color: #e2f0f9;
 }
 
 footer {
@@ -186,14 +158,15 @@ footer {
 }
 
 /* 移动端样式 */
-@media (max-width: 600px) {
+@media (max-width: 648px) {
   .searchBar {
     margin-top: 20px;
-    width: 100%;
+    width: 90%;
+    padding: 10px;
   }
 
   .buttons button {
-    width: 90%;
+    width: 95%;
     /* 使按钮占据整个宽度 */
   }
 }

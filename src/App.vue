@@ -1,12 +1,19 @@
 <script setup>
-// import TheHome from './components/TheHome.vue'
 </script>
 
 <template>
   <main>
-    <!-- <TheHome /> -->
     <RouterView />
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+}
+</style>

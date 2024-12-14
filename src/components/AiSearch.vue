@@ -1,19 +1,20 @@
 <template>
+  <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome"/>
   <div class="container">
     <p class="title">极点AI搜索</p>
     <div ref="messagesContainer" class="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <p><strong>{{ message.role }}:</strong>
-          <MdPreview :modelValue="message.content" />
-        <div class="contentOption">
+        <img class="roleIcon" :src="message.role === 'user' ? '/src/assets/logo.svg' : '/src/assets/send.svg'" alt="角色图标" style="width: 24px; height: 24px; margin-right: 5px;" />
+        <div>
+         <MdPreview :modelValue="message.content" />
+         <div class="contentOption">
           <div class="optionButton" @click="copyContent(message.content)"><img src="/src/assets/copy.svg" alt="复制">
           </div>
           <div class="optionButton" @click="sendToChart(message.content, index)"><img src="/src/assets/chartbar.svg"
               alt="生成图表">
           </div>
-        </div>
-        </p>
-        <div v-if="chartContent && lastChartIndex === index" class="chart">
+         </div>
+         <div v-if="chartContent && lastChartIndex === index" class="chart">
           <MdPreview :modelValue="chartContent" />
           <div class="chartOption">
             <div class="optionButton" @click="zoomChart"><img src=" /src/assets/zoomOut.svg" alt="放大">
@@ -25,28 +26,29 @@
             <div class="optionButton" @click="saveAsImage"><img src=" /src/assets/cut.svg" alt="保存图片">
             </div>
           </div>
-
         </div>
+      </div>
       </div>
       <div v-if="generatingChart" class="chart">
         <p>AI图表生成中...</p>
       </div>
       <div v-if="streaming" class="streaming">
-        <p><strong>assistant:</strong>
-          <MdPreview :modelValue="assistantMessage" />
-        </p>
+        <p>思考中...</p>
+        <MdPreview :modelValue="assistantMessage" />
       </div>
     </div>
     <div class="searchBox">
-      <input v-model="userInput" @keyup.enter="sendMessage" placeholder="输入消息..." class="inputField" />
+      <input v-model="userInput" @keyup.enter="sendMessage" placeholder="输入问题..." class="inputField" />
       <div class="searchOption">
         <div class="rightOption">
-          <el-switch :modelValue="onlineSwitch" @update:modelValue="toggleOnlineSearch"
-            style="--el-switch-on-color: #91CAE8; --el-switch-off-color: #f5f5f5" />
-          <p>联网搜索</p>
-          <el-switch :modelValue="deepThinkingSwitch" @update:modelValue="toggleDeepThinking"
-            style="--el-switch-on-color: #91CAE8; --el-switch-off-color: #f5f5f5" />
-          <p>深度思考</p>
+          <div class="switchOption" :class="{ 'active': onlineSwitch }" @click="toggleOnlineSearch(!onlineSwitch)">
+            <img src="/src/assets/online.svg" alt="">
+            <p>联网搜索</p>
+          </div>
+          <div class="switchOption" :class="{ 'active': deepThinkingSwitch }" @click="toggleDeepThinking(!deepThinkingSwitch)">
+            <img src="/src/assets/thinking.svg" alt="">
+            <p>深度思考</p>
+          </div>
         </div>
         <div class="rightOption">
           <div class="optionButton" @click="refresh"><img src="/src/assets/refresh.svg" alt="刷新"></div>
@@ -61,15 +63,27 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import NavBar from './NavBar.vue';
 import OpenAI from 'openai';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
-import { ElSwitch, ElMessage } from 'element-plus'; // 引入 Element Plus 的 Switch 和 Message 组件
+import { ElMessage } from 'element-plus'; 
 import 'element-plus/dist/index.css';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Mermaid from 'mermaid';
 import html2canvas from 'html2canvas';
 const route = useRoute();
+const router = useRouter();
+
+const goToHome = () => {
+  router.push('/');
+};
+const goToSetting = () => {
+  router.push('/setting');
+};
+const goToAbout = () => {
+  router.push('/about');
+};
 
 const messagesContainer = ref(null);
 const messages = ref([]);
@@ -528,21 +542,19 @@ window.addEventListener('beforeunload', () => {
   overflow-y: auto;
   padding-bottom: 20px;
   margin-bottom: 100px;
-  scrollbar-width: thin;
-  scrollbar-color: #9AA2AD #f9f9f9;
+  scrollbar-width: none; /* 隐藏滚动条 */
 }
 
 .messagesContainer::-webkit-scrollbar {
-  width: 2px;
+  width: 0; /* 隐藏滚动条 */
 }
 
 .messagesContainer::-webkit-scrollbar-track {
-  background: #f9f9f9;
+  background: transparent; /* 背景透明 */
 }
 
 .messagesContainer::-webkit-scrollbar-thumb {
-  background-color: #9AA2AD;
-  border-radius: 9px;
+  background-color: transparent; /* 滚动条透明 */
 }
 
 .title {
@@ -552,11 +564,19 @@ window.addEventListener('beforeunload', () => {
 }
 
 .message {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 10px;
   padding: 10px;
   background-color: #ffffff;
   border-radius: 12px;
-  border: 1px solid #dfdfdf;
+  /* border: 1px solid #dfdfdf; */
+}
+
+.roleIcon {
+  margin-top: 13px;
+  width: 20px;
+  height: 20px;
 }
 
 .streaming {
@@ -586,8 +606,8 @@ window.addEventListener('beforeunload', () => {
   transition: box-shadow 0.3s ease;
 }
 
-.searchBox:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.searchBox:focus-within {
+  border: 1px solid #9AA2AD;
 }
 
 .searchOption {
@@ -598,9 +618,9 @@ window.addEventListener('beforeunload', () => {
 
 .inputField {
   width: 100%;
-  padding: 10px 2px;
+  padding: 8px 2px 18px 2px;
   border: 0px solid #ccc;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 9px;
   outline: none;
   transition: border-color 0.3s;
@@ -612,19 +632,22 @@ window.addEventListener('beforeunload', () => {
 }
 
 .optionButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
   width: 36px;
   height: 36px;
   padding: 4px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
   border-radius: 9px;
   margin-right: 5px;
-  border: 2px solid #f8f9fa;
-  transition: transform 0.3s ease;
-  transition: border-color 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .optionButton:hover {
-  border: 2px solid #91CAE8;
+  border: 1px solid #aaa;
+  background-color: #f5f5f5;
 }
 
 .optionButton img {
@@ -635,6 +658,37 @@ window.addEventListener('beforeunload', () => {
 #sendButton {
   border: 2px solid #91CAE8;
   background-color: #91CAE8;
+}
+
+.switchOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  height: 36px;
+  padding: 5px;
+  border-radius: 9px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+  user-select: none;
+}
+
+.switchOption img {
+  width: 24px;
+  height: 24px;
+}
+
+.switchOption p {
+  font-size: 14px;
+  color: #000000;
+}
+
+.switchOption.active {
+  background-color: #f5f5f5;
+  border: 1px solid #aaa;
 }
 
 /* 移动端样式 */

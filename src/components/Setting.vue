@@ -1,6 +1,6 @@
 <template>
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
   <div class="settingsContainer">
-    <img class="bankHome" @click="goToHome" src="/src/assets/bankbutton.svg" alt="返回">
     <h1>设置</h1>
     <p>大模型<span>支持OpenAI格式</span></p>
     <div class="settingBox">
@@ -63,11 +63,18 @@
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
+import NavBar from './NavBar.vue';
 
 const router = useRouter(); // 获取 router 实例
 
 const goToHome = () => {
   router.push('/');
+};
+const goToSetting = () => {
+  router.push('/setting');
+};
+const goToAbout = () => {
+  router.push('/about');
 };
 
 const largeModel = ref({
@@ -136,12 +143,6 @@ onMounted(() => {
   height: 100vh;
 }
 
-.bankHome {
-  width: 30px;
-  height: 30px;
-  margin-left: -5px;
-}
-
 span {
   font-size: 12px;
   margin-left: 10px;
@@ -157,7 +158,7 @@ a {
   flex-direction: column;
   margin-bottom: 10px;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ccc;
   background-color: #ffffff;
   padding: 10px;
   width: 100%;
@@ -179,7 +180,7 @@ a {
   background-color: #f8f9fa;
   border-radius: 6px;
   cursor: pointer;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #ccc;
   transition: border-color 0.3s ease;
 }
 
