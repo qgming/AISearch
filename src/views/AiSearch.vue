@@ -568,7 +568,7 @@ window.addEventListener('beforeunload', () => {
   flex-direction: row;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: #ffffff; 
   border-radius: 12px;
   /* border: 1px solid #dfdfdf; */
 }

@@ -14,6 +14,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #fff;
+  /* background-color: #f4f5fa; */
 }
 </style>
