@@ -6,7 +6,7 @@
       <div v-for="(message, index) in messages" :key="index" class="message">
         <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标" style="width: 24px; height: 24px; margin-right: 5px;" />
         <div>
-         <MdPreview :modelValue="message.content" />
+         <MdPreview class="md-preview" :modelValue="message.content" />
          <div class="contentOption">
           <div class="optionButton" @click="copyContent(message.content)"><img src="/src/assets/copy.svg" alt="复制">
           </div>
@@ -15,7 +15,7 @@
           </div>
          </div>
          <div v-if="chartContent && lastChartIndex === index" class="chart">
-          <MdPreview :modelValue="chartContent" />
+          <MdPreview class="md-preview" :modelValue="chartContent" />
           <div class="chartOption">
             <div class="optionButton" @click="zoomChart"><img src=" /src/assets/zoomOut.svg" alt="放大">
             </div>
@@ -34,7 +34,7 @@
       </div>
       <div v-if="streaming" class="streaming">
         <p>思考中...</p>
-        <MdPreview :modelValue="assistantMessage" />
+        <MdPreview class="md-preview" :modelValue="assistantMessage" />
       </div>
     </div>
     <div class="searchBox">
@@ -180,14 +180,16 @@ async function sendMessage() {
   for await (const chunk of response) {
     if (!streaming.value) break; // 检查是否终止对话
     assistantMessage.value += chunk.choices[0].delta.content || '';
-    scrollToBottom(); // 自动滚动到底部
+    // scrollToBottom(); 
+    // 自动滚动到底部
   }
   streaming.value = false; // 结束流式输出
 
   messages.value.push({ role: "assistant", content: assistantMessage.value });
   userInput.value = '';
 
-  scrollToBottom(); // 自动滚动到底部
+  scrollToBottom(); 
+  // 自动滚动到底部
 }
 
 // 联网搜索
@@ -267,7 +269,7 @@ function toggleDeepThinking(value) {
 // 读取深度思考提示词文件
 async function readDeepThinkingPromptFile() {
   try {
-    const response = await fetch('../deepThinking.txt');
+    const response = await fetch('../deepThinkingPro.txt');
     if (!response.ok) {
       throw new Error('读取深度思考提示词失败');
     }
@@ -303,7 +305,7 @@ async function sendToChart(content, index) {
   } catch (error) {
     console.error('API 请求错误:', error);
     ElMessage({
-      message: 'API 请求错误',
+      message: 'API请求错误,当前大模型不支持图表生成',
       type: 'error'
     });
     generatingChart.value = false; // 生成图表失败
@@ -484,12 +486,8 @@ window.addEventListener('beforeunload', () => {
   border: 1px solid #e0e0e0;
 }
 
-.md-editor-previewOnly {
-  border-radius: 12px;
-}
-
-.md-editor-preview-wrapper {
-  padding: 5px;
+.md-preview {
+  padding: 0px;
 }
 
 .chart.zoomed {
@@ -527,11 +525,11 @@ window.addEventListener('beforeunload', () => {
 }
 
 .container {
-  width: 800px;
+  width: 100vw;
   max-width: 800px;
   margin: 0 auto;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 9px;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -541,7 +539,7 @@ window.addEventListener('beforeunload', () => {
   flex-grow: 1;
   overflow-y: auto;
   padding-bottom: 20px;
-  margin-bottom: 100px;
+  margin-bottom: 120px;
   scrollbar-width: none; /* 隐藏滚动条 */
 }
 
@@ -564,12 +562,12 @@ window.addEventListener('beforeunload', () => {
 }
 
 .message {
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: row; */
   margin-bottom: 10px;
-  padding: 0px;
+  padding: 10px;
   background-color: #ffffff; 
-  border-radius: 12px;
+  border-radius: 9px;
   /* border: 1px solid #dfdfdf; */
 }
 
@@ -582,7 +580,7 @@ window.addEventListener('beforeunload', () => {
 .streaming {
   padding: 10px;
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 9px;
   border: 1px solid #9AA2AD;
 }
 
@@ -697,7 +695,6 @@ window.addEventListener('beforeunload', () => {
 /* 移动端样式 */
 @media (max-width: 600px) {
   .container {
-    width: 98vw;
     padding: 5px;
   }
 
@@ -710,11 +707,11 @@ window.addEventListener('beforeunload', () => {
   }
 
   .messagesContainer {
-    margin-bottom: 70px;
+    margin-bottom: 120px;
   }
 
   .message {
-    padding: 5px;
+    padding: 3px;
   }
 
   .searchBox {

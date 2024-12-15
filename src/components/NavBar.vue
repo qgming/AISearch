@@ -1,11 +1,10 @@
 <template>
   <header>
       <ul class="nav-list">
+        <li @click="$emit('goToAiSearch')"><img src="/src/assets/send.svg" alt=""></li>
         <li @click="$emit('goToHome')"><img src="/src/assets/home.svg" alt=""></li>
         <li @click="$emit('goToAbout')"><img src="/src/assets/about.svg" alt=""></li>
-     
         <li @click="$emit('goToSetting')"><img src="/src/assets/setting.svg" alt=""></li>
-
       </ul>
   </header>
 </template>
@@ -67,7 +66,7 @@ li img {
   }
 
   .nav-list li {
-    margin: 0;
+    margin-bottom: 0;
   }
 
   li img {

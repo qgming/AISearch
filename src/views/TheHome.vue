@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" />
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToAiSearch="goToAiSearch" />
     <main>
       <div class="logo">
         <img src="/src/assets/send.svg" alt="Google Logo">
@@ -30,6 +30,10 @@ const searchQuery = ref('');
 
 const goToSearch = () => {
   router.push({ path: '/search', query: { q: searchQuery.value } });
+};
+
+const goToAiSearch = () => {
+  router.push('/search');
 };
 
 const goToSetting = () => {

@@ -1,12 +1,12 @@
 <template>
-  <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
+  <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
   <div class="aboutContainer">
     <div class="pageTitle">关于</div>
     <div class="aboutBox logoBox">
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta7</p>
+      <p>beta8</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">
@@ -50,6 +50,9 @@ const goToSetting = () => {
 };
 const goToAbout = () => {
   router.push('/about');
+};
+const goToAiSearch = () => {
+  router.push('/search');
 };
 
 </script>

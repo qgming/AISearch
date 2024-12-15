@@ -1,5 +1,5 @@
 <template>
-    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
   <div class="settingsContainer">
     <div class="pageTitle">设置</div>
     <div class="settingBox">
@@ -70,6 +70,9 @@ const goToSetting = () => {
 };
 const goToAbout = () => {
   router.push('/about');
+};
+const goToAiSearch = () => {
+  router.push('/search');
 };
 
 const largeModel = ref({
