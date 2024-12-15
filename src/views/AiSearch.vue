@@ -530,7 +530,7 @@ window.addEventListener('beforeunload', () => {
   width: 800px;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -567,7 +567,7 @@ window.addEventListener('beforeunload', () => {
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 0px;
   background-color: #ffffff; 
   border-radius: 12px;
   /* border: 1px solid #dfdfdf; */
@@ -638,16 +638,15 @@ window.addEventListener('beforeunload', () => {
   width: 36px;
   height: 36px;
   padding: 4px;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   border: 1px solid #ccc;
   border-radius: 9px;
   margin-right: 5px;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease,background-color 0.3s, border-color 0.3s ease;
 }
 
 .optionButton:hover {
-  border: 1px solid #aaa;
-  background-color: #f5f5f5;
+  background-color: #e0e0e0;
 }
 
 .optionButton img {
@@ -667,13 +666,17 @@ window.addEventListener('beforeunload', () => {
   width: 100px;
   height: 36px;
   padding: 5px;
+  background-color: #f8f9fa;
   border-radius: 9px;
   margin-right: 5px;
   border: 1px solid #ccc;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease,background-color 0.3s, border-color 0.3s ease;
   cursor: pointer;
-  background-color: #ffffff;
   user-select: none;
+}
+
+.switchOption:hover {
+  background-color: #e0e0e0;
 }
 
 .switchOption img {
@@ -687,7 +690,7 @@ window.addEventListener('beforeunload', () => {
 }
 
 .switchOption.active {
-  background-color: #f5f5f5;
+  background-color: #e0e0e0;
   border: 1px solid #aaa;
 }
 
@@ -716,9 +719,16 @@ window.addEventListener('beforeunload', () => {
 
   .searchBox {
     padding: 5px;
-    bottom: 0px;
-    border-radius: 2px;
+    bottom: 50px;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
   }
+
+  .searchBox:focus-within {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+ }
 
   .inputField {
     font-size: 16px;

@@ -1,8 +1,9 @@
 <template>
   <header>
       <ul class="nav-list">
-        <li @click="$emit('goToAbout')"><img src="/src/assets/about.svg" alt=""></li>
         <li @click="$emit('goToHome')"><img src="/src/assets/home.svg" alt=""></li>
+        <li @click="$emit('goToAbout')"><img src="/src/assets/about.svg" alt=""></li>
+     
         <li @click="$emit('goToSetting')"><img src="/src/assets/setting.svg" alt=""></li>
 
       </ul>
@@ -20,7 +21,7 @@ header {
   bottom: 0;
   height: 100%;
   width: 50px;
-  background-color: #ffffff;
+  background-color: #fafafa;
   border-right: 1px solid #ccc;
   display: flex;
   align-items: flex-end;

@@ -1,23 +1,37 @@
 <template>
-    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
+  <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
   <div class="aboutContainer">
-    <h1>关于</h1>
-    <div class="aboutBox">
+    <div class="pageTitle">关于</div>
+    <div class="aboutBox logoBox">
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
-      <p>1.0.0（beta6）</p>
+      <p>1.0.0</p>
+      <p>beta7</p>
     </div>
     <div class="aboutBox">
       <div class="aboutItem">
         <div class="functionItem">
-          <p class="function">联网搜索</p>
-          <p class="function">深度思考</p>
+          <p class="function">🔍 联网搜索</p>
         </div>
         <div class="functionItem">
-          <p class="function">文字转图表</p>
-          <p class="function">自定义大模型</p>
+          <p class="function">💡 深度思考</p>
+        </div>
+        <div class="functionItem">
+          <p class="function">📊 文字转图表</p>
+        </div>
+        <div class="functionItem">
+          <p class="function">🔧 自定义大模型</p>
         </div>
       </div>
+    </div>
+    <div class="aboutBox">
+     <div class="contactInfo">
+      <p>联系方式:</p>
+      <p>邮箱: qgming@qq.com</p>
+     </div>
+     <div class="copyright">
+      <p> 2024 极点AI搜索. 保留所有权利。</p>
+     </div>
     </div>
   </div>
 </template>
@@ -42,21 +56,39 @@ const goToAbout = () => {
 
 <style scoped>
 .aboutContainer {
-  padding: 10px;
+  padding: 0 0 50px 50px;
   width: 100vw;
-  max-width: 600px;
   height: 100vh;
 }
+
+.pageTitle {
+  font-size: 24px;
+  height: 50px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  text-align: left;
+  line-height: 50px;
+  padding-left: 20px;
+}
+
 .aboutBox {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #ffffff;
+  margin-bottom: 20px;
+  width: 50%;
+  margin: 10px auto;
   padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  box-sizing: border-box;
+}
+
+.logoBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
@@ -69,47 +101,56 @@ const goToAbout = () => {
   font-weight: bold;
   font-size: large;
   font-family: 'PingFang SC', sans-serif;
-  /* 添加苹方字体 */
 }
 
 .aboutItem {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 5px 0;
-}
-
-.aboutItem p {
-  font-size: 16px;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .functionItem {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
+  background-color: #f9f9f9;
+  padding: 15px;
+  transition: background-color 0.3s;
+}
+
+.functionItem:hover {
+  background-color: #e0e0e0;
 }
 
 .function {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f5fa;
-  border-radius: 9px;
-  height: 50px;
-  width: 250px;
-  padding: 5px;
-  margin: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
 }
 
-.name {
-  width: 50px;
+.contactInfo {
+  font-size: 14px;
+  color: #666;
+}
+
+.copyright {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #999;
 }
 
 /* 移动端适配 */
 @media (max-width: 600px) {
+  .aboutContainer {
+    padding: 10px;
+  }
+
   .aboutBox {
-    padding: 5px;
+    width: 100%;
+  }
+
+  .pageTitle {
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 0;
   }
 
   .logo {
@@ -122,16 +163,12 @@ const goToAbout = () => {
     font-size: medium;
   }
 
-  .aboutItem p {
-    font-size: 14px;
+  .contactInfo {
+    font-size: 12px;
   }
 
-  .function {
-    width: 100px;
-  }
-
-  .name {
-    width: 40px;
+  .copyright {
+    font-size: 10px;
   }
 }
 </style>
