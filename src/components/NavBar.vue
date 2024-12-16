@@ -1,28 +1,33 @@
 <template>
   <header :class="themeStore.theme">
     <ul class="nav-list">
-      <li class="dark" @click="themeStore.toggleTheme"><img :class="themeStore.theme" src="/src/assets/dark.svg" alt=""></li>
-      <li class="ai" @click="$emit('goToAiSearch')"><img :class="themeStore.theme" src="/src/assets/send.svg" alt=""></li>
+      <li class="darkmodel" @click="themeStore.toggleTheme"><img :class="themeStore.theme" src="/src/assets/dark.svg"
+          alt=""></li>
+      <li class="ai" @click="$emit('goToAiSearch')"><img :class="themeStore.theme" src="/src/assets/send.svg" alt="">
+      </li>
       <li class="home" @click="$emit('goToHome')"><img :class="themeStore.theme" src="/src/assets/home.svg" alt=""></li>
-      <li class="about" @click="$emit('goToAbout')"><img :class="themeStore.theme" src="/src/assets/about.svg" alt=""></li>
-      <li class="setting" @click="$emit('goToSetting')"><img :class="themeStore.theme" src="/src/assets/setting.svg" alt=""></li>
+      <li class="about" @click="$emit('goToAbout')"><img :class="themeStore.theme" src="/src/assets/about.svg" alt="">
+      </li>
+      <li class="setting" @click="$emit('goToSetting')"><img :class="themeStore.theme" src="/src/assets/setting.svg"
+          alt=""></li>
     </ul>
   </header>
 </template>
 
 <script setup>
+// 引入主题存储
 import { useThemeStore } from '../store/theme';
 const themeStore = useThemeStore();
 </script>
 
 <style scoped>
+/* 头部样式 */
 header {
   position: fixed;
   left: 0;
   bottom: 0;
   height: 100%;
   width: 50px;
-  /* background-color: #fafafa; */
   border-right: 1px solid #ccc;
   display: flex;
   align-items: flex-end;
@@ -45,13 +50,13 @@ li img.dark {
 header.light {
   background-color: #fafafa;
   border-right: 1px solid #ccc;
-  /* color: #000000; */
 }
 
 .nav-list img.light {
-    fill: white !important; /* 使用!important来确保样式优先级 */
+  fill: white !important;
 }
 
+/* 导航列表样式 */
 .nav-list {
   list-style-type: none;
   padding: 0;
@@ -68,19 +73,24 @@ li img {
   height: 24px;
 }
 
-@media (max-width: 648px) {
+/* 媒体查询，小于648px时的样式 */
+@media (max-width: 600px) {
   header {
     position: fixed;
-    bottom: 0;  /* 位置改为底部 */
+    bottom: 0;
     left: 0;
     height: 50px;
     width: 100%;
-    border-top: 1px solid #ccc;  /* 顶部边框 */
+    border-top: 1px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 10px;
     z-index: 1000;
+  }
+
+  header.dark {
+    border-top: 1px solid #121212;
   }
 
   .nav-list {
@@ -97,9 +107,11 @@ li img {
     width: 20px;
     height: 20px;
   }
-  .dark {
+
+  .darkmodel {
     display: none;
   }
+
   .about {
     display: none;
   }

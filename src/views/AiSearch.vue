@@ -1,66 +1,76 @@
 <template>
   <div class="main" :class="themeStore.theme">
-  <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome"/>
-  <div class="container" :class="themeStore.theme">
-    <p class="title">极点AI搜索</p>
-    <div ref="messagesContainer" class="messagesContainer">
-      <div v-for="(message, index) in messages" :key="index" class="message" :class="themeStore.theme">
-        <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标" style="width: 24px; height: 24px; margin-right: 5px;" />
-        <div>
-         <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="message.content" />
-         <div class="contentOption">
-          <div class="optionButton" :class="themeStore.theme" @click="copyContent(message.content)"><img src="/src/assets/copy.svg" alt="复制">
-          </div>
-          <div class="optionButton" :class="themeStore.theme" @click="sendToChart(message.content, index)"><img src="/src/assets/chartbar.svg"
-              alt="生成图表">
-          </div>
-         </div>
-         <div v-if="chartContent && lastChartIndex === index" class="chart" :class="themeStore.theme">
-          <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="chartContent" />
-          <div class="chartOption">
-            <div class="optionButton" :class="themeStore.theme" @click="zoomChart"><img src=" /src/assets/zoomOut.svg" alt="放大">
+    <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
+    <div class="container" :class="themeStore.theme">
+      <p class="title">极点AI搜索</p>
+      <div ref="messagesContainer" class="messagesContainer">
+        <div v-for="(message, index) in messages" :key="index" class="message" :class="themeStore.theme">
+          <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标"
+            style="width: 24px; height: 24px; margin-right: 5px;" />
+          <div>
+            <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="message.content" />
+            <div class="contentOption">
+              <div class="optionButton" :class="themeStore.theme" @click="copyContent(message.content)"><img
+                  src="/src/assets/copy.svg" alt="复制">
+              </div>
+              <div class="optionButton" :class="themeStore.theme" @click="sendToChart(message.content, index)"><img
+                  src="/src/assets/chartbar.svg" alt="生成图表">
+              </div>
             </div>
-            <div>
-              <p>极点&nbsp;AI&nbsp;图表</p>
-              <p class="powered">POWERED BY JDWDAI</p>
-            </div>
-            <div class="optionButton" :class="themeStore.theme" @click="saveAsImage"><img src=" /src/assets/cut.svg" alt="保存图片">
+            <div v-if="chartContent && lastChartIndex === index" class="chart" :class="themeStore.theme">
+              <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="chartContent" />
+              <div class="chartOption">
+                <div class="optionButton" :class="themeStore.theme" @click="zoomChart"><img
+                    src=" /src/assets/zoomOut.svg" alt="放大">
+                </div>
+                <div>
+                  <p>极点&nbsp;AI&nbsp;图表</p>
+                  <p class="powered">POWERED BY JDWDAI</p>
+                </div>
+                <div class="optionButton" :class="themeStore.theme" @click="saveAsImage"><img src=" /src/assets/cut.svg"
+                    alt="保存图片">
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      </div>
-      <div v-if="generatingChart" class="chart">
-        <p>AI图表生成中...</p>
-      </div>
-      <div v-if="streaming" class="streaming">
-        <p>思考中...</p>
-        <MdPreview class="md-preview" :modelValue="assistantMessage" />
-      </div>
-    </div>
-    <div class="searchBox" :class="themeStore.theme">
-      <input class="inputField" v-model="userInput" :class="themeStore.theme" @keyup.enter="sendMessage" placeholder="输入问题..."  />
-      <div class="searchOption">
-        <div class="rightOption">
-          <div class="switchOption" :class="[{ 'active': onlineSwitch }, themeStore.theme]" @click="toggleOnlineSearch(!onlineSwitch)">
-            <img src="/src/assets/online.svg" alt="">
-            <p :class="themeStore.theme">联网搜索</p>
-          </div>
-          <div class="switchOption" :class="[{ 'active': deepThinkingSwitch }, themeStore.theme]" @click="toggleDeepThinking(!deepThinkingSwitch)">
-            <img src="/src/assets/thinking.svg" alt="">
-            <p :class="themeStore.theme">深度思考</p>
-          </div>
+        <div v-if="generatingChart" class="chart">
+          <p>AI图表生成中...</p>
         </div>
-        <div class="rightOption">
-          <div class="optionButton" :class="themeStore.theme" @click="refresh"><img src="/src/assets/refresh.svg" alt="刷新"></div>
-          <div class="optionButton" :class="themeStore.theme" @click="stopConversation"><img src="/src/assets/stop.svg" alt="终止"></div>
-          <div class="optionButton" :class="themeStore.theme" id="sendButton" @click="sendMessage"><img src="/src/assets/sendW.svg" alt="发送">
+        <div v-if="streaming" class="streaming" :class="themeStore.theme">
+          <p>思考中...</p>
+          <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="assistantMessage" />
+        </div>
+      </div>
+      <div class="searchBox" :class="themeStore.theme">
+        <input class="inputField" v-model="userInput" :class="themeStore.theme" @keyup.enter="sendMessage"
+          placeholder="输入问题..." />
+        <div class="searchOption">
+          <div class="rightOption">
+            <div class="switchOption" :class="[{ 'active': onlineSwitch }, themeStore.theme]"
+              @click="toggleOnlineSearch(!onlineSwitch)">
+              <img src="/src/assets/online.svg" alt="">
+              <p :class="themeStore.theme">联网搜索</p>
+            </div>
+            <div class="switchOption" :class="[{ 'active': deepThinkingSwitch }, themeStore.theme]"
+              @click="toggleDeepThinking(!deepThinkingSwitch)">
+              <img src="/src/assets/thinking.svg" alt="">
+              <p :class="themeStore.theme">深度思考</p>
+            </div>
+          </div>
+          <div class="rightOption">
+            <div class="optionButton" :class="themeStore.theme" @click="refresh"><img src="/src/assets/refresh.svg"
+                alt="刷新"></div>
+            <div class="optionButton" :class="themeStore.theme" @click="stopConversation"><img
+                src="/src/assets/stop.svg" alt="终止"></div>
+            <div class="optionButton" :class="themeStore.theme" id="sendButton" @click="sendMessage"><img
+                src="/src/assets/sendW.svg" alt="发送">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script setup>
@@ -69,7 +79,7 @@ import NavBar from '../components/NavBar.vue';
 import OpenAI from 'openai';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
-import { ElMessage } from 'element-plus'; 
+import { ElMessage } from 'element-plus';
 import 'element-plus/dist/index.css';
 import { useRoute, useRouter } from 'vue-router';
 import Mermaid from 'mermaid';
@@ -192,7 +202,7 @@ async function sendMessage() {
   messages.value.push({ role: "assistant", content: assistantMessage.value });
   userInput.value = '';
 
-  scrollToBottom(); 
+  scrollToBottom();
   // 自动滚动到底部
 }
 
@@ -485,6 +495,7 @@ window.addEventListener('beforeunload', () => {
   width: 100vw;
   height: 100vh;
 }
+
 .chart {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -548,19 +559,23 @@ window.addEventListener('beforeunload', () => {
   overflow-y: auto;
   padding-bottom: 20px;
   margin-bottom: 120px;
-  scrollbar-width: none; /* 隐藏滚动条 */
+  scrollbar-width: none;
+  /* 隐藏滚动条 */
 }
 
 .messagesContainer::-webkit-scrollbar {
-  width: 0; /* 隐藏滚动条 */
+  width: 0;
+  /* 隐藏滚动条 */
 }
 
 .messagesContainer::-webkit-scrollbar-track {
-  background: transparent; /* 背景透明 */
+  background: transparent;
+  /* 背景透明 */
 }
 
 .messagesContainer::-webkit-scrollbar-thumb {
-  background-color: transparent; /* 滚动条透明 */
+  background-color: transparent;
+  /* 滚动条透明 */
 }
 
 .title {
@@ -574,7 +589,7 @@ window.addEventListener('beforeunload', () => {
   flex-direction: row; */
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-radius: 9px;
   /* border: 1px solid #dfdfdf; */
 }
@@ -609,7 +624,6 @@ window.addEventListener('beforeunload', () => {
   padding: 10px;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
-  transition: box-shadow 0.3s ease;
 }
 
 .searchBox:focus-within {
@@ -640,7 +654,7 @@ window.addEventListener('beforeunload', () => {
 .optionButton {
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   width: 36px;
   height: 36px;
   padding: 4px;
@@ -648,7 +662,7 @@ window.addEventListener('beforeunload', () => {
   border: 1px solid #ccc;
   border-radius: 9px;
   margin-right: 5px;
-  transition: transform 0.3s ease,background-color 0.3s, border-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s, border-color 0.3s ease;
 }
 
 .optionButton:hover {
@@ -676,7 +690,7 @@ window.addEventListener('beforeunload', () => {
   border-radius: 9px;
   margin-right: 5px;
   border: 1px solid #ccc;
-  transition: transform 0.3s ease,background-color 0.3s, border-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s, border-color 0.3s ease;
   cursor: pointer;
   user-select: none;
 }
@@ -705,65 +719,87 @@ window.addEventListener('beforeunload', () => {
   background-color: #121212;
   color: #ffffff;
 }
+
 .main.dark {
   background-color: #121212;
   color: #ffffff;
 }
+
 .searchBox.dark {
   background-color: #333;
   border: 1px solid #333;
 }
-.message.dark{
+
+.message.dark {
   background-color: #121212;
 }
+
 .md-preview.dark {
   background-color: #121212;
 }
+
 .md-preview p.dark {
   color: #ffffff;
 }
+
 .chart.dark {
   background-color: #333;
   border: 1px solid #333;
 }
-.chartOption.dark{
+
+.chartOption.dark {
   background-color: #333;
   color: #ffffff;
 }
-.chartOption p.dark{
+
+.chartOption p.dark {
   background-color: #333;
   color: #ffffff;
 }
-.chartOption div.dark{
+
+.chartOption div.dark {
   background-color: #333;
   color: #ffffff;
 }
+
 .optionButton.dark {
   background-color: #121212;
   border: 1px solid #333;
 }
+
 .optionButton:hover.dark {
   border: 1px solid #91CAE8;
 }
+
 .inputField.dark {
   background-color: #333;
   border: 1px solid #333;
   color: #ffffff;
 }
+
 .switchOption.dark {
   background-color: #121212;
   border: 1px solid #121212;
 }
+
 .switchOption:hover.dark {
   border: 1px solid #91CAE8;
 }
+
 .switchOption.active.dark {
   background-color: #1d1d1d;
   border: 1px solid #333;
 }
+
 .switchOption p.dark {
   color: #ffffff;
 }
+
+.streaming.dark {
+  background-color: #121212;
+  border-color: #ccc;
+}
+
 /* 移动端样式 */
 @media (max-width: 600px) {
   .container {
@@ -791,13 +827,18 @@ window.addEventListener('beforeunload', () => {
     bottom: 50px;
     border-radius: 0;
     border: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #ccc;
   }
 
   .searchBox:focus-within {
-    border: none;
-    border-top: 1px solid #e0e0e0;
- }
+    border: 0;
+    border-top: 1px solid #ccc;
+  }
+
+  .searchBox.dark {
+    border: 0;
+    border-top: 1px solid #333;
+  }
 
   .inputField {
     font-size: 16px;

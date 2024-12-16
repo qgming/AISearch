@@ -1,13 +1,18 @@
 <template>
+  <!-- 导航栏组件 -->
   <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
+  <!-- 关于页面容器 -->
   <div class="aboutContainer" :class="themeStore.theme">
+    <!-- 页面标题 -->
     <div class="pageTitle" :class="themeStore.theme">关于</div>
+    <!-- 关于盒子：Logo部分 -->
     <div class="aboutBox logoBox" :class="themeStore.theme">
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta9</p>
+      <p>beta10</p>
     </div>
+    <!-- 关于盒子：功能部分 -->
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
         <div class="functionItem" :class="themeStore.theme">
@@ -24,17 +29,17 @@
         </div>
       </div>
     </div>
+    <!-- 关于盒子：联系方式和版权信息 -->
     <div class="aboutBox" :class="themeStore.theme">
-     <div class="contactInfo">
-      <p>联系方式:</p>
-      <p>邮箱: qgming@qq.com</p>
-     </div>
-     <div class="copyright">
-      <p> 2024 极点AI搜索. 保留所有权利。</p>
-     </div>
+      <div class="contactInfo">
+        <p>联系方式:</p>
+        <p>邮箱: qgming@qq.com</p>
+      </div>
+      <div class="copyright">
+        <p> 2024 极点AI搜索. 保留所有权利。</p>
+      </div>
     </div>
   </div>
- 
 </template>
 
 <script setup>
@@ -45,29 +50,33 @@ const themeStore = useThemeStore();
 
 const router = useRouter(); // 获取 router 实例
 
+// 导航到首页
 const goToHome = () => {
   router.push('/');
 };
+// 导航到设置页面
 const goToSetting = () => {
   router.push('/setting');
 };
+// 导航到关于页面
 const goToAbout = () => {
   router.push('/about');
 };
+// 导航到AI搜索页面
 const goToAiSearch = () => {
   router.push('/search');
 };
-
 </script>
 
 <style scoped>
-
+/* 关于页面容器样式 */
 .aboutContainer {
   padding: 0 0 50px 50px;
   width: 100vw;
   height: 100vh;
 }
 
+/* 页面标题样式 */
 .pageTitle {
   font-size: 24px;
   height: 50px;
@@ -76,6 +85,7 @@ const goToAiSearch = () => {
   padding-left: 20px;
 }
 
+/* 关于盒子样式 */
 .aboutBox {
   display: flex;
   flex-direction: column;
@@ -89,6 +99,7 @@ const goToAiSearch = () => {
   box-sizing: border-box;
 }
 
+/* Logo盒子样式 */
 .logoBox {
   display: flex;
   flex-direction: column;
@@ -96,45 +107,52 @@ const goToAiSearch = () => {
   align-items: center;
 }
 
+/* Logo样式 */
 .logo {
   margin: 20px;
   width: 100px;
   height: 100px;
 }
 
+/* 顶部名称样式 */
 .topName {
   font-weight: bold;
   font-size: large;
   font-family: 'PingFang SC', sans-serif;
 }
 
+/* 关于项样式 */
 .aboutItem {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+/* 功能项样式 */
 .functionItem {
   background-color: #f9f9f9;
   padding: 15px;
-  transition: background-color 0.3s;
 }
 
+/* 功能项悬停样式 */
 .functionItem:hover {
   background-color: #e0e0e0;
 }
 
+/* 功能样式 */
 .function {
   font-size: 16px;
   font-weight: bold;
   color: #333;
 }
 
+/* 联系方式样式 */
 .contactInfo {
   font-size: 14px;
   color: #666;
 }
 
+/* 版权信息样式 */
 .copyright {
   margin-top: 10px;
   font-size: 12px;
@@ -143,9 +161,10 @@ const goToAiSearch = () => {
 
 /* 浅色模式样式 */
 .aboutContainer.light {
-  background-color: #f4f5fa;
+  background-color: #ffffff;
   color: #000000;
 }
+
 .pageTitle.light {
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
@@ -157,17 +176,21 @@ const goToAiSearch = () => {
   background-color: #121212;
   color: #ffffff;
 }
+
 .pageTitle.dark {
   background-color: #121212;
 }
+
 .aboutBox.dark {
   background-color: #333;
   border: 1px solid #333;
 }
+
 .functionItem.dark {
   background-color: #333;
 }
-.function.dark{
+
+.function.dark {
   color: #ffffff;
 }
 

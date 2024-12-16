@@ -7,7 +7,7 @@
       </div>
       <div class="searchBar" :class="themeStore.theme">
         <img src="/src/assets/searchH.svg" alt="搜索输入框">
-        <input :class="themeStore.theme"  type="text" v-model="searchQuery" @keydown.enter="searchBing" placeholder="">
+        <input :class="themeStore.theme" type="text" v-model="searchQuery" @keydown.enter="searchBing" placeholder="">
       </div>
       <div class="buttons" :class="themeStore.theme">
         <button @click="searchBing">必应搜索</button>
@@ -54,7 +54,6 @@ const searchGoogle = () => {
   const query = encodeURIComponent(searchQuery.value);
   window.open(`https://www.google.com/search?q=${query}`, '_blank');
 };
-
 </script>
 
 <style scoped>
@@ -203,13 +202,5 @@ footer {
 .buttons.dark button:hover {
   border: 2px solid #91CAE8;
   background-color: #444;
-}
-
-/* 响应系统深色模式 */
-@media (prefers-color-scheme: dark) {
-  .home:not(.light):not(.dark) {
-    background-color: #000000;
-    color: #ffffff;
-  }
 }
 </style>
