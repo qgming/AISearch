@@ -1,31 +1,31 @@
 <template>
     <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
-  <div class="settingsContainer">
-    <div class="pageTitle">设置</div>
-    <div class="settingBox">
+  <div class="settingsContainer" :class="themeStore.theme">
+    <div class="pageTitle" :class="themeStore.theme">设置</div>
+    <div class="settingBox" :class="themeStore.theme">
       <p class="settingTitle">大模型</p>
       <div class="settingItem">
         <p class="settingLabel">服务商</p>
-        <input type="text" placeholder="请输入服务商" v-model="largeModel.provider" />
+        <input :class="themeStore.theme" type="text" placeholder="请输入服务商" v-model="largeModel.provider" />
       </div>
       <div class="settingItem">
         <p class="settingLabel">Key</p>
-        <input type="password" placeholder="请输入Key" v-model="largeModel.key" />
+        <input :class="themeStore.theme" type="password" placeholder="请输入Key" v-model="largeModel.key" />
       </div>
       <div class="settingItem">
         <p class="settingLabel">模型</p>
-        <input type="text" placeholder="请输入模型" v-model="largeModel.model" />
+        <input :class="themeStore.theme" type="text" placeholder="请输入模型" v-model="largeModel.model" />
       </div>
-      <div class="rightOption">
-        <button @click="saveLargeModel">添加到备选</button>
-        <button @click="applyLargeModel">应用</button>
+      <div class="rightOption" >
+        <button :class="themeStore.theme" @click="saveLargeModel">添加到备选</button>
+        <button :class="themeStore.theme" @click="applyLargeModel">应用</button>
       </div>
       <p class="hintText">支持OpenAI格式，默认由<a href="https://open.bigmodel.cn/" target="_blank">智谱AI</a>（glm-4-flash）提供免费服务</p>
     </div>
-    <div class="settingBox">
+    <div class="settingBox" :class="themeStore.theme">
       <p class="settingTitle">备选模型</p>
       <div v-for="(model, index) in otherLargeModels" :key="index" class="otherModel">
-        <div class="modelCard">
+        <div class="modelCard" :class="themeStore.theme">
           <div class="modelInfo">
             <p class="modelLabel">模型</p>
             <p>{{ model.model }}</p>
@@ -33,21 +33,21 @@
             <p>{{ model.provider }}</p>
           </div>
           <div class="modelActions">
-            <button class="new-button" @click="deleteLargeModel(index)">删除</button>
-            <button class="new-button" @click="fillLargeModel(model)">选择</button>
+            <button :class="themeStore.theme" class="new-button" @click="deleteLargeModel(index)">删除</button>
+            <button :class="themeStore.theme" class="new-button" @click="fillLargeModel(model)">选择</button>
           </div>
         </div>
       </div>
     </div> 
-    <div class="settingBox">
+    <div class="settingBox" :class="themeStore.theme">
       <p class="settingTitle">网络搜索</p>
       
       <div class="settingItem">
         <p class="settingLabel">Key</p>
-        <input type="text" placeholder="请输入Key" v-model="webSearch.key" />
+        <input :class="themeStore.theme" type="text" placeholder="请输入Key" v-model="webSearch.key" />
       </div>
       <div class="rightOption">
-        <button @click="saveWebSearch">应用</button>
+        <button :class="themeStore.theme" @click="saveWebSearch">应用</button>
       </div>
       <p class="hintText">默认无网络搜索服务，请配置<a href="https://serper.dev/" target="_blank">Serper</a>谷歌搜索API</p>
     </div>
@@ -59,6 +59,8 @@ import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
 import NavBar from '../components/NavBar.vue';
+import { useThemeStore } from '../store/theme';
+const themeStore = useThemeStore();
 
 const router = useRouter(); // 获取 router 实例
 
@@ -133,6 +135,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 .settingsContainer {
   padding: 0 0 50px 50px;
   width: 100vw;
@@ -264,6 +267,31 @@ a {
 
 .modelLabel {
   margin-bottom: 5px;
+}
+
+/* 深色模式样式 */
+.settingsContainer.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+.pageTitle.dark {
+  border-bottom: 1px solid #121212;
+}
+.settingBox.dark {
+  background-color: #333;
+  border: 1px solid #333;
+}
+.settingBox input.dark {
+  background-color: #333;
+  color: #ffffff
+}
+.rightOption button.dark {
+  background-color: #000000;
+  border: 1px solid #000000;
+}
+.modelCard.dark {
+  background-color: #000000;
+  border: 1px solid #000000;
 }
 
 /* 移动端适配 */

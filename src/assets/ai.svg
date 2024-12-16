@@ -1,7 +1,0 @@
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <!-- 设置背景为白色 -->
-  <rect width="100" height="100" fill="white" />
-  <!-- 创建像素化的AI字样 -->
-  <text x="10" y="40" font-family="Arial" font-size="30" fill="black">A</text>
-  <text x="50" y="40" font-family="Arial" font-size="30" fill="black">I</text>
-</svg>

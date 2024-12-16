@@ -1,15 +1,15 @@
 <template>
-  <div class="home">
+  <div :class="['home', themeStore.theme]">
     <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToAiSearch="goToAiSearch" />
     <main>
       <div class="logo">
         <img src="/src/assets/send.svg" alt="Google Logo">
       </div>
-      <div class="searchBar">
+      <div class="searchBar" :class="themeStore.theme">
         <img src="/src/assets/searchH.svg" alt="搜索输入框">
-        <input type="text" v-model="searchQuery" @keydown.enter="searchBing" placeholder="">
+        <input :class="themeStore.theme"  type="text" v-model="searchQuery" @keydown.enter="searchBing" placeholder="">
       </div>
-      <div class="buttons">
+      <div class="buttons" :class="themeStore.theme">
         <button @click="searchBing">必应搜索</button>
         <button @click="searchGoogle">Google 搜索</button>
         <button @click="goToSearch">AI搜索</button>
@@ -24,7 +24,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import NavBar from '../components/NavBar.vue'; // 引入NavBar组件
+import { useThemeStore } from '../store/theme';
 
+const themeStore = useThemeStore();
 const router = useRouter();
 const searchQuery = ref('');
 
@@ -52,6 +54,7 @@ const searchGoogle = () => {
   const query = encodeURIComponent(searchQuery.value);
   window.open(`https://www.google.com/search?q=${query}`, '_blank');
 };
+
 </script>
 
 <style scoped>
@@ -62,7 +65,7 @@ const searchGoogle = () => {
   text-align: center;
   height: 100vh;
   width: 100vw;
-  background-color: #f4f5fa;
+  transition: background-color 0.3s ease;
 }
 
 main {
@@ -81,21 +84,17 @@ main {
 .searchBar {
   margin-top: 20px;
   width: 600px;
-  background-color: white;
   border-radius: 12px;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* 增加阴影 */
   transition: box-shadow 0.3s ease;
-  /* 增加鼠标划过动画 */
 }
 
 .searchBar:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  /* 鼠标划过时增加阴影 */
 }
 
 .searchBar img {
@@ -115,43 +114,24 @@ main {
   outline: none;
 }
 
-
-.searchIcons {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  padding: 2px;
-  background-color: #f5f5f5;
-}
-
-.searchIcons img {
-  width: 30px;
-  height: 30px;
-}
-
 .buttons {
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
-  /* 允许按钮换行 */
   justify-content: center;
-  /* 居中对齐按钮 */
 }
 
 .buttons button {
   padding: 10px 20px;
   margin: 5px;
   border: none;
-  background-color: #f8f9fa;
   border-radius: 4px;
   cursor: pointer;
-  border: 2px solid #f8f9fa;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .buttons button:hover {
   border: 2px solid #91CAE8;
-  background-color: #e2f0f9;
 }
 
 footer {
@@ -171,7 +151,65 @@ footer {
 
   .buttons button {
     width: 95%;
-    /* 使按钮占据整个宽度 */
+  }
+}
+
+/* 浅色模式样式 */
+.home.light {
+  background-color: #f4f5fa;
+  color: #000000;
+}
+
+/* 深色模式样式 */
+.home.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* 搜索框样式 */
+.searchBar.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.searchBar input.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.searchBar.dark {
+  background-color: #333;
+  color: #ffffff;
+}
+
+.searchBar input.dark {
+  background-color: #333;
+  color: #ffffff;
+}
+
+/* 按钮样式 */
+.buttons.light button {
+  background-color: #f8f9fa;
+  color: #000000;
+  border: 2px solid #f8f9fa;
+}
+
+.buttons.dark button {
+  background-color: #333;
+  color: #ffffff;
+  border: 2px solid #333;
+}
+
+.buttons.dark button:hover {
+  border: 2px solid #91CAE8;
+  background-color: #444;
+}
+
+/* 响应系统深色模式 */
+@media (prefers-color-scheme: dark) {
+  .home:not(.light):not(.dark) {
+    background-color: #000000;
+    color: #ffffff;
   }
 }
 </style>

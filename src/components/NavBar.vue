@@ -1,16 +1,18 @@
 <template>
-  <header>
-      <ul class="nav-list">
-        <li @click="$emit('goToAiSearch')"><img src="/src/assets/send.svg" alt=""></li>
-        <li @click="$emit('goToHome')"><img src="/src/assets/home.svg" alt=""></li>
-        <li @click="$emit('goToAbout')"><img src="/src/assets/about.svg" alt=""></li>
-        <li @click="$emit('goToSetting')"><img src="/src/assets/setting.svg" alt=""></li>
-      </ul>
+  <header :class="themeStore.theme">
+    <ul class="nav-list">
+      <li class="dark" @click="themeStore.toggleTheme"><img :class="themeStore.theme" src="/src/assets/dark.svg" alt=""></li>
+      <li class="ai" @click="$emit('goToAiSearch')"><img :class="themeStore.theme" src="/src/assets/send.svg" alt=""></li>
+      <li class="home" @click="$emit('goToHome')"><img :class="themeStore.theme" src="/src/assets/home.svg" alt=""></li>
+      <li class="about" @click="$emit('goToAbout')"><img :class="themeStore.theme" src="/src/assets/about.svg" alt=""></li>
+      <li class="setting" @click="$emit('goToSetting')"><img :class="themeStore.theme" src="/src/assets/setting.svg" alt=""></li>
+    </ul>
   </header>
 </template>
 
 <script setup>
-// 这里可以添加任何需要的逻辑或 props
+import { useThemeStore } from '../store/theme';
+const themeStore = useThemeStore();
 </script>
 
 <style scoped>
@@ -20,12 +22,34 @@ header {
   bottom: 0;
   height: 100%;
   width: 50px;
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
   border-right: 1px solid #ccc;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   padding: 20px;
+}
+
+/* 深色模式样式 */
+header.dark {
+  background-color: #333;
+  border-right: 1px solid #000;
+  color: #ffffff;
+}
+
+li img.dark {
+  color: #ffffff;
+}
+
+/* 浅色模式样式 */
+header.light {
+  background-color: #fafafa;
+  border-right: 1px solid #ccc;
+  /* color: #000000; */
+}
+
+.nav-list img.light {
+    fill: white !important; /* 使用!important来确保样式优先级 */
 }
 
 .nav-list {
@@ -72,6 +96,12 @@ li img {
   li img {
     width: 20px;
     height: 20px;
+  }
+  .dark {
+    display: none;
+  }
+  .about {
+    display: none;
   }
 }
 </style>

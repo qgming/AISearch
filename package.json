@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "d3": "^7.9.0",
+    "dark-mode": "^4.0.0",
     "element-plus": "^2.8.8",
     "html2canvas": "^1.4.1",
     "md-editor-v3": "^5.0.1",
     "mermaid": "^11.4.0",
     "openai": "^4.72.0",
+    "pinia": "^2.3.0",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
