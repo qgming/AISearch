@@ -1,15 +1,6 @@
+# 极点 AI 搜索
 
-# 极点AI搜索
-
-一款高度自定义的AI搜索引擎
-
-<!-- PROJECT SHIELDS -->
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+![AiSearch](https://socialify.git.ci/qgming/AiSearch/image?forks=1&issues=1&language=1&name=1&owner=1&pattern=Plus&stargazers=1&theme=Auto)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -44,20 +35,20 @@
 - 内置[Thinking-Claude](https://github.com/richards199999/Thinking-Claude)Prompt 来实现仿`深度思考`功能
 - 全面适配移动端 UI
 - 全面适配深色模式
- 
+
 ## 目录
 
 - [安装步骤](#安装步骤)
 - [文件目录说明](#文件目录说明)
 - [使用到的框架](#使用到的框架)
 - [版本控制](#版本控制)
+- [贡献者](#贡献者)
 - [作者](#作者)
 - [鸣谢](#鸣谢)
 
-
 ### **安装步骤**
 
-1. Get a free API Key at [智谱AI](https://open.bigmodel.cn/)
+1. Get a free API Key at [智谱 AI](https://open.bigmodel.cn/)
 2. Clone the repo
 
 ```sh
@@ -65,16 +56,19 @@ git clonehttps://github.com/qgming/AISearch.git
 ```
 
 3. Install dependencies
+
 ```sh
 npm install
 ```
+
 4. Run `npm run dev` for a dev server
 
 ### 文件目录说明
+
 eg:
 
 ```
-filetree 
+filetree
 ├── public/
 │   ├── base.css
 │   ├── favicon.ico
@@ -103,7 +97,6 @@ filetree
 └── vite.config.js
 ```
 
-
 ### 使用到的框架
 
 - [md-editor-v3](https://github.com/shaojintian/md-editor-v3)
@@ -115,28 +108,33 @@ filetree
 
 ### 版本控制
 
-该项目使用Git进行版本管理。您可以在repository参看当前可用版本。
+该项目使用 Git 进行版本管理。您可以在 repository 参看当前可用版本。
+
+### 贡献者
+
+![img](https://contrib.rocks/image?repo=qgming/AiSearch)
 
 ### 作者
 
 qgming
 邮箱：qgming@qq.com
-公众号：极点维度   
+公众号：极点维度
 
- *您也可以在贡献者名单中参看所有参与该项目的开发者。*
+_您也可以在贡献者名单中参看所有参与该项目的开发者。_
 
 ### 版权说明
 
-该项目签署了MIT 授权许可，详情请参阅 [LICENSE.txt](https://github.com/qgming/AISearch/blob/main/LICENSE.txt)
+该项目签署了 MIT 授权许可，详情请参阅 [LICENSE.txt](https://github.com/qgming/AISearch/blob/main/LICENSE.txt)
 
 ### 鸣谢
 
 - [Vercel](https://www.vercel.com)
 - [iconfont](https://www.iconfont.cn/)
-- [智谱AI](https://open.bigmodel.cn/)
+- [智谱 AI](https://open.bigmodel.cn/)
 
 <!-- links -->
-[your-project-path]:qgming/AISearch
+
+[your-project-path]: qgming/AISearch
 [contributors-shield]: https://img.shields.io/github/contributors/qgming/AISearch.svg?style=flat-square
 [contributors-url]: https://github.com/qgming/AISearch/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/qgming/AISearch.svg?style=flat-square
@@ -146,4 +144,4 @@ qgming
 [issues-shield]: https://img.shields.io/github/issues/qgming/AISearch.svg?style=flat-square
 [issues-url]: https://img.shields.io/github/issues/qgming/AISearch.svg
 [license-shield]: https://img.shields.io/github/license/qgming/AISearch.svg?style=flat-square
-[license-url]: https://github.com/gming/AISearch/blob/main/LICENSE.txt
+[license-url]: https://github.com/qgming/AISearch/blob/main/LICENSE.txt
