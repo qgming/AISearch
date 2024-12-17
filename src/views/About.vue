@@ -1,18 +1,13 @@
 <template>
-  <!-- 导航栏组件 -->
   <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
-  <!-- 关于页面容器 -->
   <div class="aboutContainer" :class="themeStore.theme">
-    <!-- 页面标题 -->
     <div class="pageTitle" :class="themeStore.theme">关于</div>
-    <!-- 关于盒子：Logo部分 -->
     <div class="aboutBox logoBox" :class="themeStore.theme">
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta10</p>
+      <p>beta11</p>
     </div>
-    <!-- 关于盒子：功能部分 -->
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
         <div class="functionItem" :class="themeStore.theme">
@@ -29,7 +24,6 @@
         </div>
       </div>
     </div>
-    <!-- 关于盒子：联系方式和版权信息 -->
     <div class="aboutBox" :class="themeStore.theme">
       <div class="contactInfo">
         <p>联系方式:</p>

@@ -2,6 +2,10 @@
   <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" @goToAiSearch="goToAiSearch" />
   <div class="settingsContainer" :class="themeStore.theme">
     <div class="pageTitle" :class="themeStore.theme">设置</div>
+    <div class="settingBox switchBox" :class="themeStore.theme">
+      <p>深色模式</p>
+      <el-switch v-model="darkmodel" @change="themeStore.toggleTheme" />
+    </div>
     <div class="settingBox" :class="themeStore.theme">
       <p class="settingTitle">大模型</p>
       <div class="settingItem">
@@ -57,10 +61,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage,ElSwitch} from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
 import NavBar from '../components/NavBar.vue';
 import { useThemeStore } from '../store/theme';
+
+const darkmodel = ref(false);
 
 // 获取 themeStore 实例
 const themeStore = useThemeStore();
@@ -144,6 +150,8 @@ onMounted(() => {
   if (savedWebSearch) {
     webSearch.value = JSON.parse(savedWebSearch);
   }
+  
+  darkmodel.value = themeStore.theme === 'dark';
 });
 </script>
 
@@ -178,6 +186,13 @@ onMounted(() => {
   border: 1px solid #ddd;
   border-radius: 9px;
   box-sizing: border-box;
+}
+
+.switchBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* 链接样式 */
@@ -335,7 +350,9 @@ a {
 /* 移动端适配 */
 @media (max-width: 600px) {
   .settingsContainer {
-    padding: 10px;
+    padding: 10px 10px 60px 10px;
+    overflow-y: scroll;
+    scrollbar-width: none;
   }
 
   .pageTitle {

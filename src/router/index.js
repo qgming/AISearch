@@ -4,7 +4,7 @@ import TheHome from "@/views/TheHome.vue";
 import AiSearch from "@/views/AiSearch.vue";
 import Setting from "@/views/Setting.vue";
 import About from "@/views/About.vue";
-import Ai from "@/views/Ai.vue";
+// import Ai from "@/views/Ai.vue";
 
 const routes = [
   { path: "/", component: TheHome },
