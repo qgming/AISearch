@@ -1,15 +1,15 @@
 <template>
-  <div :class="['home', themeStore.theme]">
+  <div :class="['home', themeStore.theme, bingbgStore.bingbg]">
     <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToAiSearch="goToAiSearch" />
-    <main>
-      <div class="logo">
+    <main :class="bingbgStore.bingbg">
+      <div class="logo" :class="bingbgStore.bingbg">
         <img src="/src/assets/send.svg" alt="Google Logo">
       </div>
-      <div class="searchBar" :class="themeStore.theme">
+      <div class="searchBar" :class="[bingbgStore.bingbg, themeStore.theme]">
         <img src="/src/assets/searchH.svg" alt="搜索输入框">
-        <input :class="themeStore.theme" type="text" v-model="searchQuery" @keydown.enter="searchBing" placeholder="">
+        <input :class="[bingbgStore.bingbg, themeStore.theme]" class="searchInput" type="text" v-model="searchQuery" @keydown="handleKeydown" placeholder="">
       </div>
-      <div class="buttons" :class="themeStore.theme">
+      <div class="buttons" :class="[bingbgStore.bingbg, themeStore.theme]">
         <button @click="searchBing">必应搜索</button>
         <button @click="searchGoogle">Google 搜索</button>
         <button @click="goToSearch">AI搜索</button>
@@ -23,15 +23,27 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import NavBar from '../components/NavBar.vue'; // 引入NavBar组件
+import NavBar from '../components/NavBar.vue';
 import { useThemeStore } from '../store/theme';
+import { useBingbgStore } from '@/store/bingbg';
 
 const themeStore = useThemeStore();
+const bingbgStore = useBingbgStore();
 const router = useRouter();
 const searchQuery = ref('');
 
 const goToSearch = () => {
   router.push({ path: '/search', query: { q: searchQuery.value } });
+};
+
+const handleKeydown = (event) => {
+  if (event.key === 'Enter') {
+    searchBing();
+  } else if (event.key === 'q' && event.ctrlKey) {
+    goToSearch();
+  } else if (event.key === 'g' && event.ctrlKey) {
+    searchGoogle();
+  }
 };
 
 const goToAiSearch = () => {
@@ -64,8 +76,15 @@ const searchGoogle = () => {
   text-align: center;
   height: 100vh;
   width: 100vw;
-  transition: background-color 0.3s ease;
+  background-color: #f4f5fa;
+  transition: background-color 0.3s ease, background-image 0.3s ease;
 }
+
+.home.bingImg {
+  background-image: url("https://bing.ee123.net/img/rand");
+  background-size: cover;
+}
+
 
 main {
   display: flex;
@@ -80,6 +99,14 @@ main {
   width: 100px;
 }
 
+.logo.bingImg{
+  display: none;
+}
+
+.buttons.bingImg {
+  display: none;
+}
+
 .searchBar {
   margin-top: 20px;
   width: 600px;
@@ -88,12 +115,31 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #ffffff;
+  color: #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.5s ease,transform 0.3s ease;
+}
+
+.searchBar.bingImg {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(7px);
+}
+
+.searchBar.dark.bingImg {
+  background-color: rgba(128, 128, 128, 0.2);
+  backdrop-filter: blur(7px);
+}
+
+.searchInput.bingImg {
+  background-color: transparent;
+  color: #000;
 }
 
 .searchBar:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transform: scale(1.01);
 }
 
 .searchBar img {
@@ -103,12 +149,14 @@ main {
   margin-right: 2px;
 }
 
-.searchBar input {
+.searchInput {
   width: 100%;
   max-width: 600px;
   border-radius: 9px;
   font-size: 18px;
   padding: 8px;
+  background-color: transparent;
+  color: #000000;
   border: none;
   outline: none;
 }
@@ -123,9 +171,12 @@ main {
 .buttons button {
   padding: 10px 20px;
   margin: 5px;
-  border: none;
+  /* border: none; */
   border-radius: 4px;
   cursor: pointer;
+  background-color: #f8f9fa;
+  color: #000000;
+  border: 2px solid #f8f9fa;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -144,7 +195,7 @@ footer {
 @media (max-width: 648px) {
   .searchBar {
     margin-top: 20px;
-    width: 90%;
+    width: 90vw;
     padding: 10px;
   }
 
@@ -153,27 +204,10 @@ footer {
   }
 }
 
-/* 浅色模式样式 */
-.home.light {
-  background-color: #f4f5fa;
-  color: #000000;
-}
-
 /* 深色模式样式 */
 .home.dark {
   background-color: #121212;
   color: #ffffff;
-}
-
-/* 搜索框样式 */
-.searchBar.light {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.searchBar input.light {
-  background-color: #ffffff;
-  color: #000000;
 }
 
 .searchBar.dark {
@@ -181,16 +215,8 @@ footer {
   color: #ffffff;
 }
 
-.searchBar input.dark {
-  background-color: #333;
+.searchInput.dark {
   color: #ffffff;
-}
-
-/* 按钮样式 */
-.buttons.light button {
-  background-color: #f8f9fa;
-  color: #000000;
-  border: 2px solid #f8f9fa;
 }
 
 .buttons.dark button {

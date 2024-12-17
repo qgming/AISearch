@@ -1,6 +1,6 @@
 <template>
-  <header :class="themeStore.theme">
-    <ul class="nav-list">
+  <header :class="[themeStore.theme,bingbgStore.bingbg]">
+    <ul class="nav-list" :class="[themeStore.theme,bingbgStore.bingbg]">
       <li class="darkmodel" @click="themeStore.toggleTheme"><img :class="themeStore.theme" src="/src/assets/dark.svg"
           alt=""></li>
       <li class="ai" @click="$emit('goToAiSearch')"><img :class="themeStore.theme" src="/src/assets/send.svg" alt="">
@@ -17,7 +17,9 @@
 <script setup>
 // 引入主题存储
 import { useThemeStore } from '../store/theme';
+import { useBingbgStore } from '../store/bingbg';
 const themeStore = useThemeStore();
+const bingbgStore = useBingbgStore();
 </script>
 
 <style scoped>
@@ -28,6 +30,7 @@ header {
   bottom: 0;
   height: 100%;
   width: 50px;
+  background-color: #fafafa;
   border-right: 1px solid #ccc;
   display: flex;
   align-items: flex-end;
@@ -42,18 +45,13 @@ header.dark {
   color: #ffffff;
 }
 
+header.bingImg {
+  background-color: transparent;
+  border: none;
+}
+
 li img.dark {
   color: #ffffff;
-}
-
-/* 浅色模式样式 */
-header.light {
-  background-color: #fafafa;
-  border-right: 1px solid #ccc;
-}
-
-.nav-list img.light {
-  fill: white !important;
 }
 
 /* 导航列表样式 */
@@ -63,14 +61,32 @@ header.light {
   margin: 0;
 }
 
+.nav-list.bingImg {
+  padding: 6px;
+  border-radius: 9px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(7px);
+}
+
+.nav-list.bingImg.dark {
+  background-color: rgba(128, 128, 128, 0.3);
+  backdrop-filter: blur(4px);
+}
+
 .nav-list li {
-  margin-bottom: 15px;
+  margin: 10px 0px;
   cursor: pointer;
 }
 
 li img {
   width: 24px;
   height: 24px;
+}
+
+.nav-list.bingImg .about,
+.nav-list.bingImg .darkmodel {
+  display: none;
 }
 
 /* 媒体查询，小于648px时的样式 */
@@ -93,27 +109,40 @@ li img {
     border-top: 1px solid #121212;
   }
 
+  header.dark.bingImg {
+    border-top: none;
+  }
+
+  .nav-list.bingImg {
+   padding: 1px;
+   border-radius: 40px;
+   margin-bottom: 10px;
+  }
+
   .nav-list {
     display: flex;
+    align-items: center;
     justify-content: space-around;
     width: 100%;
   }
 
   .nav-list li {
-    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 6px;
   }
 
   li img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 
-  .darkmodel {
+  .nav-list .darkmodel,
+  .nav-list .about {
     display: none;
   }
 
-  .about {
-    display: none;
-  }
 }
 </style>

@@ -6,6 +6,10 @@
       <p>深色模式</p>
       <el-switch v-model="darkmodel" @change="themeStore.toggleTheme" />
     </div>
+    <div class="settingBox switchBox" :class="themeStore.theme">
+      <p>简化模式</p>
+      <el-switch v-model="bingImg" @change="bingbgStore.setBingbg" />
+    </div>
     <div class="settingBox" :class="themeStore.theme">
       <p class="settingTitle">大模型</p>
       <div class="settingItem">
@@ -56,6 +60,10 @@
       </div>
       <p class="hintText">默认无网络搜索服务，请配置<a href="https://serper.dev/" target="_blank">Serper</a>谷歌搜索API</p>
     </div>
+    <div class="settingBox" :class="themeStore.theme">
+      <p class="settingTitle">说明</p>
+      <p class="hintText">输入框输入搜索关键词，点击Enter即可普通引擎搜索（默认Bing搜索），使用组合键Ctrl+Q切换到AI搜索<br>使用联网搜索功能需要按照提示配置API</p>
+    </div>
   </div>
 </template>
 
@@ -65,11 +73,16 @@ import { ElMessage,ElSwitch} from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
 import NavBar from '../components/NavBar.vue';
 import { useThemeStore } from '../store/theme';
+import { useBingbgStore } from '../store/bingbg';
 
 const darkmodel = ref(false);
+const bingImg = ref(false);
 
 // 获取 themeStore 实例
 const themeStore = useThemeStore();
+
+// 获取 bingbgStore 实例
+const bingbgStore = useBingbgStore();
 
 // 获取 router 实例
 const router = useRouter();
@@ -152,6 +165,12 @@ onMounted(() => {
   }
   
   darkmodel.value = themeStore.theme === 'dark';
+
+  // const savedBingbg = localStorage.getItem('bingbg');
+  // if (savedBingbg) {
+  //   bingImg.value = savedBingbg === 'NoBingImg' ? false : true;
+  // }
+  bingImg.value = bingbgStore.bingbg === 'bingImg';
 });
 </script>
 
