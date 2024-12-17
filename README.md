@@ -3,10 +3,7 @@
 ![AiSearch](https://socialify.git.ci/qgming/AiSearch/image?language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fqgming%2FAISearch%2Frefs%2Fheads%2Fmain%2Fpublic%2Ffavicon.svg&name=1&owner=1&stargazers=1&theme=Light)
 
 <p align="center">
-  <!-- <a href="https://github.com/qgming/AISearch">
-    <img src="public/send.svg" alt="Logo" width="80" height="80">
-  </a> -->
-  <h3 align="center">极点AI搜索</h3>
+  <h3 align="center"><strong>极点AI搜索</strong></h3>
   <p align="center">
     一款高度自定义的AI搜索引擎
     <br />
@@ -128,6 +125,3 @@ _您也可以在贡献者名单中参看所有参与该项目的开发者。_
 - [iconfont](https://www.iconfont.cn/)
 - [智谱 AI](https://open.bigmodel.cn/)
 
-<!-- links -->
-
-[your-project-path]: qgming/AISearch
