@@ -1,15 +1,11 @@
 # 极点 AI 搜索
 
-![AiSearch](https://socialify.git.ci/qgming/AiSearch/image?forks=1&issues=1&language=1&name=1&owner=1&pattern=Plus&stargazers=1&theme=Auto)
-
-<!-- PROJECT LOGO -->
-<br />
+![AiSearch](https://socialify.git.ci/qgming/AiSearch/image?language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fqgming%2FAISearch%2Frefs%2Fheads%2Fmain%2Fpublic%2Ffavicon.svg&name=1&owner=1&stargazers=1&theme=Light)
 
 <p align="center">
-  <a href="https://github.com/qgming/AISearch">
+  <!-- <a href="https://github.com/qgming/AISearch">
     <img src="public/send.svg" alt="Logo" width="80" height="80">
-  </a>
-
+  </a> -->
   <h3 align="center">极点AI搜索</h3>
   <p align="center">
     一款高度自定义的AI搜索引擎
@@ -135,13 +131,3 @@ _您也可以在贡献者名单中参看所有参与该项目的开发者。_
 <!-- links -->
 
 [your-project-path]: qgming/AISearch
-[contributors-shield]: https://img.shields.io/github/contributors/qgming/AISearch.svg?style=flat-square
-[contributors-url]: https://github.com/qgming/AISearch/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/qgming/AISearch.svg?style=flat-square
-[forks-url]: https://github.com/qgming/AISearch/network/members
-[stars-shield]: https://img.shields.io/github/stars/qgming/AISearch.svg?style=flat-square
-[stars-url]: https://github.com/qgming/AISearch/stargazers
-[issues-shield]: https://img.shields.io/github/issues/qgming/AISearch.svg?style=flat-square
-[issues-url]: https://img.shields.io/github/issues/qgming/AISearch.svg
-[license-shield]: https://img.shields.io/github/license/qgming/AISearch.svg?style=flat-square
-[license-url]: https://github.com/qgming/AISearch/blob/main/LICENSE.txt
