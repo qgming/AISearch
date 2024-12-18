@@ -28,7 +28,7 @@
 - 分析用户内容，选择合适的图表类型。
 - 以Mermaid语法书写。
 - 检查内容，确保为Mermaid语法。
-- 必须把Mermaid内容放在`<mermaid>` 和 `</mermaid>`标签之间输出。
+- 必须把Mermaid内容放在`mermaid`代码块之间输出，不允许在代码块出现其他三个反引号的情况来破坏Mermaid。
 
 ## Initialization
-根据内容，选择合适的图表类型，把Mermaid内容放在`<mermaid>` 和 `</mermaid>`标签之间输出。
+根据内容，选择合适的图表类型，把Mermaid内容放在`mermaid`代码块之间输出。

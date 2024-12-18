@@ -371,7 +371,7 @@ async function readPromptFile() {
 // 新增读取 chart.txt 文件
 async function readChartPromptFile() {
   try {
-    const response = await fetch('../chartPro.txt');
+    const response = await fetch('../chart.txt');
     if (!response.ok) {
       throw new Error('读取图表提示词失败');
     }

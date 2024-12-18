@@ -6,7 +6,7 @@
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta12</p>
+      <p>beta13</p>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
@@ -23,6 +23,15 @@
           <p class="function" :class="themeStore.theme">🔧 自定义大模型</p>
         </div>
       </div>
+    </div>
+    <div class="aboutBox" :class="themeStore.theme">
+      <p>友情链接</p>
+        <div class="functionItem" :class="themeStore.theme">
+          <a href="http://www.jdwdai.com" target="_blank">📚 极点智能体</a>
+        </div>
+        <div class="functionItem" :class="themeStore.theme">
+          <a href="http://n.videolist.cn" target="_blank">🍊 橘子导航</a>
+        </div>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="contactInfo">
@@ -68,6 +77,7 @@ const goToAiSearch = () => {
   padding: 0 0 50px 50px;
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 /* 页面标题样式 */
@@ -125,6 +135,7 @@ const goToAiSearch = () => {
 /* 功能项样式 */
 .functionItem {
   background-color: #f9f9f9;
+  border-radius: 5px;
   padding: 15px;
 }
 
@@ -138,6 +149,11 @@ const goToAiSearch = () => {
   font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+
+.functionItem a {
+  color: #333;
+  text-decoration: none;
 }
 
 /* 联系方式样式 */
@@ -184,6 +200,10 @@ const goToAiSearch = () => {
   background-color: #333;
 }
 
+.functionItem.dark a {
+  color: #fff;
+}
+
 .function.dark {
   color: #ffffff;
 }
@@ -191,7 +211,9 @@ const goToAiSearch = () => {
 /* 移动端适配 */
 @media (max-width: 600px) {
   .aboutContainer {
-    padding: 10px;
+    padding: 10px 10px 60px 10px;
+    overflow-y: scroll;
+    scrollbar-width: none;
   }
 
   .aboutBox {

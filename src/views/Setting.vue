@@ -64,6 +64,9 @@
       <p class="settingTitle">说明</p>
       <p class="hintText">输入框输入搜索关键词，点击Enter即可普通引擎搜索（默认Bing搜索），使用组合键Ctrl+Q切换到AI搜索<br>使用联网搜索功能需要按照提示配置API</p>
     </div>
+    <div class="settingBox" :class="themeStore.theme" @click="goToAbout">
+      <p class="settingTitle">关于极点AI搜索</p>
+    </div>
   </div>
 </template>
 
