@@ -3,6 +3,7 @@
     <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
     <div class="container" :class="themeStore.theme">
       <p class="title">极点AI搜索</p>
+      <SearchLink :searchResults="searchResults" />
       <div ref="messagesContainer" class="messagesContainer">
         <div v-for="(message, index) in messages" :key="index" class="message" :class="themeStore.theme">
           <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标"
@@ -76,6 +77,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import NavBar from '../components/NavBar.vue';
+import SearchLink from '../components/SearchLink.vue';
 import OpenAI from 'openai';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
@@ -113,6 +115,8 @@ const chartPrompt = ref('')
 const chartContent = ref('');
 const lastChartIndex = ref(null); // 新增变量记录最后生成图表的消息索引
 const generatingChart = ref(false); // 新增变量表示正在生成图表
+const hasSearchedOnline = ref(false); // 新增标志变量
+const searchResults = ref([]); // 新增响应式数据
 
 // 默认API配置
 const defaultApiKey = '03da359c49454d6734e2a5de8dbb9a37.kJEgAv0s4DdM9ti0';
@@ -146,19 +150,37 @@ async function sendMessage() {
   messages.value.push(userMessage);
 
   let response;
-  if (onlineSwitch.value) {
+  if (onlineSwitch.value && !hasSearchedOnline.value) {
     // 联网搜索
     const searchResponse = await searchOnline();
+    hasSearchedOnline.value = true; // 设置标志，防止后续再次联网搜索
     try {
       response = await openai.chat.completions.create({
         messages: [
-          { role: "system", content: prompt.value }, // 添加从本地获取的提示词
+          { role: "system", content: `你是由极点AI构建的AI搜索助手，你的任务是回答用户的问题。
+          
+          当你回答问题时，请遵循以下要求：
+          1. 撰写详细，准确且清晰的回答，必要时结合自身数据库。
+          2. 以客观，公正且专业的语气撰写，回答必须正确、准确。
+          3. 限制在1024个字符以内，以Markdown格式回答。
+          4. 不要提供与问题无关的信息，也不要重复内容。
+          5. 按引用编号格式[[x](link)]标注内容（Markdown格式），link是引用内容的链接，如果一句话来自多个内容，请列出所有适用编号，如[[2](link "title")][[5](link "title")]。
+          6. 除代码、特定名称和引用外，你的回答必须使用与问题相同的语言。
+          7. 请根据参考资料以及自身知识回答问题，并在每句话末尾引用相关内容（如适用）。
+
+          参考资料集合：
+          ${searchResponse}
+
+          下面是用户问题，现在开始作答。` }, // 添加提示词
+          // { role: "assistant", content: searchResponse },
+          // { role: "user", content: userInput.value },
           ...messages.value,
-          { role: "assistant", content: searchResponse }
         ],
         model: aiModel.value,
         stream: true,
       });
+      console.log(searchResponse);
+      
     } catch (error) {
       console.error('API 请求错误:', error);
       ElMessage({
@@ -231,20 +253,21 @@ async function searchOnline() {
     // 构建消息内容
     let messageContent = '';
     if (answerBox) {
-      messageContent += `谷歌答案: ${JSON.stringify(answerBox)}\n`;
+      messageContent += `answer:${JSON.stringify(answerBox)}\n`;
     }
     if (knowledgeGraph) {
-      messageContent += `知识图谱: ${JSON.stringify(knowledgeGraph)}\n`;
+      messageContent += `knowledgeGraph:${JSON.stringify(knowledgeGraph)}\n`;
     }
     if (organic) {
       const snippets = organic.map((result, index) =>
-        `新闻${index + 1}.\n标题：${result.title}\n内容：${result.snippet}\n链接：${result.link}\n发布时间：${result.date}`
+        `citation:${index + 1}\ntitle:${result.title}\nsnippet:${result.snippet}\nlink:${result.link}`
       ).join('\n');
-      messageContent += `谷歌搜索结果: ${snippets}`;
+      messageContent += `organic:${snippets}`;
     }
-    console.log(result);
-    console.log(messageContent);
 
+    console.log(result.organic);
+
+    searchResults.value = result.organic; // 将搜索结果存储在 searchResults 中
 
     return messageContent;
   } catch (error) {
@@ -259,15 +282,28 @@ async function searchOnline() {
 
 // 切换联网搜索开关
 function toggleOnlineSearch(value) {
+  if (deepThinkingSwitch.value) {
+    toggleDeepThinking(false);
+  }
+  if (value) {
+    if (deepThinkingSwitch.value) {
+      toggleDeepThinking(false);
+    }
+  }
   onlineSwitch.value = value; // 更新开关状态
+  localStorage.setItem('onlineSearch', JSON.stringify(value)); // 保存状态到 localStorage
   ElMessage({
     message: onlineSwitch.value ? '已开启联网搜索' : '已关闭联网搜索',
     type: onlineSwitch.value ? 'success' : 'warning'
   });
+  hasSearchedOnline.value = false; // 重置标志
 }
 
 // 切换深度思考开关
 function toggleDeepThinking(value) {
+  if (onlineSwitch.value) {
+    toggleOnlineSearch(false);
+  }
   deepThinkingSwitch.value = value; // 更新开关状态
   if (value) {
     readDeepThinkingPromptFile(); // 读取深度思考提示词
@@ -402,6 +438,8 @@ function refresh() {
   chartContent.value = '';
   lastChartIndex.value = null;
   generatingChart.value = false;
+  hasSearchedOnline.value = false; // 重置标志
+  searchResults.value = []; // 清空搜索结果
 }
 
 // 复制内容到剪贴板
@@ -480,6 +518,12 @@ onMounted(() => {
     if (deepThinkingSwitch.value) {
       readDeepThinkingPromptFile(); // 如果开启深度思考，读取深度思考提示词
     }
+  }
+
+  // 从本地存储加载联网搜索开关状态
+  const savedOnlineSearch = localStorage.getItem('onlineSearch');
+  if (savedOnlineSearch !== null) {
+    onlineSwitch.value = JSON.parse(savedOnlineSearch);
   }
 });
 
