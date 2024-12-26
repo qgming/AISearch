@@ -23,7 +23,7 @@
 - 支持配置`OpenAI格式`API，如 ChatGPT，[Deepseek](https://platform.deepseek.com/)，xAI 等
 - 支持配置[Serper](https://serper.dev/)搜索 API 实现`联网搜索`功能
 - 支持 Markdown 语法预览
-- 支持 Mermaid 语法，配合大模型实现文字转图表（思维导图，流程图等）
+- 支持生成思维导图
 - 内置`Perplexity`搜索 Prompt 来处理搜索结果
 - 内置[Thinking-Claude](https://github.com/richards199999/Thinking-Claude)Prompt 来实现仿`深度思考`功能
 - 全面适配移动端 UI
@@ -63,25 +63,14 @@ eg:
 ```
 filetree
 ├── public/
-│   ├── base.css
-│   ├── favicon.ico
-│   └── prompt.txt
 ├── src/
 │   ├── App.vue
 │   ├── main.js
 │   ├── assets/
-│   │   └── other.svg
 │   ├── components/
-│   │   └── NavBar.vue
 │   ├── router/
-│   │   └── index.js
 │   ├── store/
-│   │   └── theme.js
 │   └── views/
-│       ├── About.vue
-│       ├── AiSearch.vue
-│       ├── Setting.vue
-│       └── TheHome.vue
 ├── README.md
 ├── index.html
 ├── jsconfig.json
@@ -93,6 +82,7 @@ filetree
 ### 使用到的框架
 
 - [md-editor-v3](https://github.com/shaojintian/md-editor-v3)
+- [mind-map](https://github.com/wanglin2/mind-map)
 - [element-plus](https://element-plus.org/zh-CN/)
 - [openai](https://platform.openai.com/)
 - [vue-router](https://router.vuejs.org/zh/)
@@ -124,4 +114,3 @@ _您也可以在贡献者名单中参看所有参与该项目的开发者。_
 - [Vercel](https://www.vercel.com)
 - [iconfont](https://www.iconfont.cn/)
 - [智谱 AI](https://open.bigmodel.cn/)
-

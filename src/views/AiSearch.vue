@@ -14,29 +14,14 @@
               <div class="optionButton" :class="themeStore.theme" @click="copyContent(message.content)"><img
                   src="/src/assets/copy.svg" alt="复制">
               </div>
-              <div class="optionButton" :class="themeStore.theme" @click="sendToChart(message.content, index)"><img
-                  src="/src/assets/chartbar.svg" alt="生成图表">
+              <div class="optionButton" :class="themeStore.theme" @click="sendMindMapMessage(message.content, index)">
+                <img src="/src/assets/chartbar.svg" alt="生成图表">
               </div>
             </div>
-            <div v-if="chartContent && lastChartIndex === index" class="chart" :class="themeStore.theme">
-              <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="chartContent" />
-              <div class="chartOption">
-                <div class="optionButton" :class="themeStore.theme" @click="zoomChart"><img
-                    src=" /src/assets/zoomOut.svg" alt="放大">
-                </div>
-                <div>
-                  <p>极点&nbsp;AI&nbsp;图表</p>
-                  <p class="powered">POWERED BY JDWDAI</p>
-                </div>
-                <div class="optionButton" :class="themeStore.theme" @click="saveAsImage"><img src=" /src/assets/cut.svg"
-                    alt="保存图片">
-                </div>
-              </div>
+            <div v-if="lastChartIndex === index">
+              <MindMap :mindMapMessage="mindMapMessage" />
             </div>
           </div>
-        </div>
-        <div v-if="generatingChart" class="chart">
-          <p>AI图表生成中...</p>
         </div>
         <div v-if="streaming" class="streaming" :class="themeStore.theme">
           <p>思考中...</p>
@@ -75,21 +60,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import NavBar from '../components/NavBar.vue';
 import SearchLink from '../components/SearchLink.vue';
+import MindMap from '../components/MindMap.vue';
 import OpenAI from 'openai';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import { ElMessage } from 'element-plus';
 import 'element-plus/dist/index.css';
 import { useRoute, useRouter } from 'vue-router';
-import Mermaid from 'mermaid';
-import html2canvas from 'html2canvas';
 import { useThemeStore } from '../store/theme';
+
 const themeStore = useThemeStore();
 const route = useRoute();
 const router = useRouter();
+
+const emit = defineEmits(['mindMapMessage']);
 
 const goToHome = () => {
   router.push('/');
@@ -111,12 +98,12 @@ const onlineSwitch = ref(false); // 新增联网搜索开关
 const deepThinkingSwitch = ref(false); // 新增深度思考
 
 const prompt = ref('')
-const chartPrompt = ref('')
-const chartContent = ref('');
 const lastChartIndex = ref(null); // 新增变量记录最后生成图表的消息索引
-const generatingChart = ref(false); // 新增变量表示正在生成图表
 const hasSearchedOnline = ref(false); // 新增标志变量
+
 const searchResults = ref([]); // 新增响应式数据
+const mindMapMessage = ref(''); // 定义 mindMapMessage 变量
+
 
 // 默认API配置
 const defaultApiKey = '03da359c49454d6734e2a5de8dbb9a37.kJEgAv0s4DdM9ti0';
@@ -157,7 +144,8 @@ async function sendMessage() {
     try {
       response = await openai.chat.completions.create({
         messages: [
-          { role: "system", content: `你是由极点AI构建的AI搜索助手，你的任务是回答用户的问题。
+          {
+            role: "system", content: `你是由极点AI构建的AI搜索助手，你的任务是回答用户的问题。
           
           当你回答问题时，请遵循以下要求：
           1. 撰写详细，准确且清晰的回答，必要时结合自身数据库。
@@ -179,8 +167,7 @@ async function sendMessage() {
         model: aiModel.value,
         stream: true,
       });
-      console.log(searchResponse);
-      
+
     } catch (error) {
       console.error('API 请求错误:', error);
       ElMessage({
@@ -216,16 +203,13 @@ async function sendMessage() {
   for await (const chunk of response) {
     if (!streaming.value) break; // 检查是否终止对话
     assistantMessage.value += chunk.choices[0].delta.content || '';
-    // scrollToBottom(); 
-    // 自动滚动到底部
   }
   streaming.value = false; // 结束流式输出
 
   messages.value.push({ role: "assistant", content: assistantMessage.value });
   userInput.value = '';
 
-  scrollToBottom();
-  // 自动滚动到底部
+  scrollToBottom();  // 自动滚动到底部
 }
 
 // 联网搜索
@@ -264,9 +248,6 @@ async function searchOnline() {
       ).join('\n');
       messageContent += `organic:${snippets}`;
     }
-
-    console.log(result.organic);
-
     searchResults.value = result.organic; // 将搜索结果存储在 searchResults 中
 
     return messageContent;
@@ -330,67 +311,25 @@ async function readDeepThinkingPromptFile() {
   }
 }
 
-// 使用AI生成图表
-async function sendToChart(content, index) {
-  generatingChart.value = true; // 设置正在生成图表
-  try {
+// 生成思维导图
+function sendMindMapMessage(content, index) {
+  if (content) {
+    mindMapMessage.value = content;
+    console.log('Sending mind map message:', content); // 添加调试信息
+    lastChartIndex.value = index;
+    // 添加以下代码确保组件重新渲染
+    setTimeout(() => {
+      emit('mindMapMessage', content);
+    }, 0);
+  } else {
     ElMessage({
-      message: '正在生成图表...',
-      type: 'info'
-    });
-    const response = await openai.chat.completions.create({
-      messages: [{ role: "system", content: chartPrompt.value },
-      { role: "assistant", content: content }
-      ],
-      model: aiModel.value,
-      stream: false,
-    });
-
-    const assistantContent = response.choices[0].message.content;
-    chartContent.value = assistantContent; // 将图表内容存储在 chartContent 中
-    lastChartIndex.value = index; // 记录最后生成图表的消息索引
-    generatingChart.value = false; // 生成图表完成
-
-    scrollToBottom(); // 自动滚动到底部
-  } catch (error) {
-    console.error('API 请求错误:', error);
-    ElMessage({
-      message: 'API请求错误,当前大模型不支持图表生成',
-      type: 'error'
-    });
-    generatingChart.value = false; // 生成图表失败
-  }
-}
-
-// 保存为图片
-function saveAsImage() {
-  // const chartElement = document.querySelector('.chart');
-  const chartElement = document.querySelector('.md-editor-mermaid');
-
-  if (chartElement) {
-    html2canvas(chartElement).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = imgData;
-      const timestamp = new Date().toISOString().replace(/[-:.]/g, ''); // 生成时间戳
-      link.download = `jdai_${timestamp}.png`; // 使用时间戳命名文件
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      message: '无法生成思维导图：内容为空',
+      type: 'warning'
     });
   }
 }
 
-// 放大图表
-function zoomChart() {
-  // const chartElement = document.querySelector('.chart');
-  const chartElement = document.querySelector('.chart');
-  if (chartElement) {
-    chartElement.classList.toggle('zoomed');
-  }
-}
-
-// 读取提示词文件
+// 读取搜索提示词文件
 async function readPromptFile() {
   try {
     const response = await fetch('../searchPro.txt');
@@ -401,21 +340,6 @@ async function readPromptFile() {
     prompt.value = localPrompt; // 使用 ref 更新 prompt 的值
   } catch (error) {
     console.error('读取搜索提示词失败:', error);
-  }
-}
-
-// 新增读取 chart.txt 文件
-async function readChartPromptFile() {
-  try {
-    const response = await fetch('../chart.txt');
-    if (!response.ok) {
-      throw new Error('读取图表提示词失败');
-    }
-    const chart = await response.text();
-    // 假设你需要将 chartPrompt 存储在另一个 ref 中，例如 chartPromptRef
-    chartPrompt.value = chart;
-  } catch (error) {
-    console.error('读取图表提示词失败:', error);
   }
 }
 
@@ -435,10 +359,8 @@ function scrollToBottom() {
 function refresh() {
   messages.value = []; // 清空消息列表
   assistantMessage.value = ''; // 清空助手消息
-  chartContent.value = '';
-  lastChartIndex.value = null;
-  generatingChart.value = false;
   hasSearchedOnline.value = false; // 重置标志
+  lastChartIndex.value = '' //思维导图
   searchResults.value = []; // 清空搜索结果
 }
 
@@ -475,12 +397,11 @@ function observeDOMChanges() {
 }
 
 
-onMounted(() => {
+onMounted(async () => {
   applyDynamicStyles(); // 应用动态样式
   observeDOMChanges(); // 监听 DOM 变化
   scrollToBottom(); // 组件挂载时滚动到底部
   readPromptFile(); // 调用读取提示词
-  readChartPromptFile(); // 读取 chart 提示词
 
   //本地获取API配置信息
   const savedLargeModel = localStorage.getItem('largeModel');
@@ -532,6 +453,7 @@ window.addEventListener('beforeunload', () => {
   localStorage.setItem('deepThinkingSwitch', JSON.stringify(deepThinkingSwitch.value));
 });
 
+
 </script>
 
 <style scoped>
@@ -540,51 +462,8 @@ window.addEventListener('beforeunload', () => {
   height: 100vh;
 }
 
-.chart {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-}
-
 .md-preview {
   padding: 0px;
-}
-
-.chart.zoomed {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  width: 90%;
-  background-color: white;
-  border: 2px solid #9AA2AD;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.chartOption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.chartOption p {
-  text-align: center;
-  font-weight: 500;
-  font-family: 'PingFang SC', sans-serif;
-  /* 使用现代感的中文字体 */
-}
-
-.powered {
-  font-size: 10px;
-  color: #9AA2AD;
-}
-
-.chartOption div {
-  margin: 0;
 }
 
 .container {
@@ -786,26 +665,6 @@ window.addEventListener('beforeunload', () => {
   color: #ffffff;
 }
 
-.chart.dark {
-  background-color: #333;
-  border: 1px solid #333;
-}
-
-.chartOption.dark {
-  background-color: #333;
-  color: #ffffff;
-}
-
-.chartOption p.dark {
-  background-color: #333;
-  color: #ffffff;
-}
-
-.chartOption div.dark {
-  background-color: #333;
-  color: #ffffff;
-}
-
 .optionButton.dark {
   background-color: #121212;
   border: 1px solid #333;
@@ -848,10 +707,6 @@ window.addEventListener('beforeunload', () => {
 @media (max-width: 600px) {
   .container {
     padding: 5px;
-  }
-
-  .chart {
-    margin-bottom: 5px;
   }
 
   .title {

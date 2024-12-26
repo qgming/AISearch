@@ -6,7 +6,7 @@
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta14</p>
+      <p>beta15</p>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
@@ -26,12 +26,12 @@
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <p>友情链接</p>
-        <div class="functionItem" :class="themeStore.theme">
-          <a href="http://www.jdwdai.com" target="_blank">📚 极点智能体</a>
-        </div>
-        <div class="functionItem" :class="themeStore.theme">
-          <a href="http://n.videolist.cn" target="_blank">🍊 橘子导航</a>
-        </div>
+      <div class="functionItem" :class="themeStore.theme">
+        <a href="http://www.jdwdai.com" target="_blank">📚 极点智能体</a>
+      </div>
+      <div class="functionItem" :class="themeStore.theme">
+        <a href="http://n.videolist.cn" target="_blank">🍊 橘子导航</a>
+      </div>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="contactInfo">
