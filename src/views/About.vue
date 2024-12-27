@@ -6,7 +6,7 @@
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta15</p>
+      <p>beta16</p>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
@@ -17,7 +17,7 @@
           <p class="function" :class="themeStore.theme">💡 深度思考</p>
         </div>
         <div class="functionItem" :class="themeStore.theme">
-          <p class="function" :class="themeStore.theme">📊 文字转图表</p>
+          <p class="function" :class="themeStore.theme">📊 思维导图</p>
         </div>
         <div class="functionItem" :class="themeStore.theme">
           <p class="function" :class="themeStore.theme">🔧 自定义大模型</p>

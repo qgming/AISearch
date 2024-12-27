@@ -3,8 +3,8 @@
     <NavBar @goToSetting="goToSetting" @goToAbout="goToAbout" @goToHome="goToHome" />
     <div class="container" :class="themeStore.theme">
       <p class="title">极点AI搜索</p>
-      <SearchLink :searchResults="searchResults" />
       <div ref="messagesContainer" class="messagesContainer">
+        <SearchLink :searchResults="searchResults" />
         <div v-for="(message, index) in messages" :key="index" class="message" :class="themeStore.theme">
           <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标"
             style="width: 24px; height: 24px; margin-right: 5px;" />
@@ -315,7 +315,6 @@ async function readDeepThinkingPromptFile() {
 function sendMindMapMessage(content, index) {
   if (content) {
     mindMapMessage.value = content;
-    console.log('Sending mind map message:', content); // 添加调试信息
     lastChartIndex.value = index;
     // 添加以下代码确保组件重新渲染
     setTimeout(() => {
@@ -510,7 +509,7 @@ window.addEventListener('beforeunload', () => {
 .message {
   /* display: flex;
   flex-direction: row; */
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 10px;
   background-color: #ffffff;
   border-radius: 9px;

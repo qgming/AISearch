@@ -1,10 +1,50 @@
 <template>
-    <div id="mindMap" ref="mindMapContainer"></div>
+    <div>
+        <div id="mindMap" ref="mindMapContainer"></div>
+        <button class="exportPng" @click="exportAsPng">导出为图片</button>
+    </div>
 </template>
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import MindMap from 'simple-mind-map';
 import OpenAI from "openai";
+import MindMap from 'simple-mind-map';
+import Export from 'simple-mind-map/src/plugins/Export.js';
+import Watermark from 'simple-mind-map/src/plugins/Watermark.js'
+
+// 注册插件
+MindMap.usePlugin(Export);
+MindMap.usePlugin(Watermark)
+
+//导出PNG
+const exportAsPng = async () => {
+    if (!mindMap) return;
+
+    try {
+        // 使用requestAnimationFrame确保渲染完成
+        await new Promise(resolve => requestAnimationFrame(resolve));
+
+        const data = await mindMap.doExport.png({
+            transparent: false,
+        });
+
+        // 创建下载链接
+        const a = document.createElement('a');
+        a.href = data;
+        a.download = `mindmap_${new Date().toISOString().replace(/[:.]/g, '-')}.png`;
+        a.click();
+    } catch (error) {
+        console.error('导出失败:', error);
+        alert('导出失败，请稍后重试');
+    }
+};
+
+// 添加一个方法来清除水印
+const clearWatermark = () => {
+    if (!mindMap) return;
+    mindMap.watermark.clear();
+};
+
+
 
 const mindMapContainer = ref(null);
 const props = defineProps({
@@ -41,9 +81,6 @@ const makeMindMap = async (data) => {
                 },
                 hyperlink: '', // 超链接地址
                 hyperlinkTitle: '', // 超链接的标题
-                note: '', // 备注的内容
-                associativeLineTargets: [''],// 如果存在关联线，那么为目标节点的uid列表
-                associativeLineText: '',// 关联线文本
             },
             children [// 子节点，结构和根节点一致
                 {
@@ -62,15 +99,12 @@ const makeMindMap = async (data) => {
             },
         });
         const mindMapData = completion.choices[0].message.content;
-        console.log(mindMapData);
 
         updateMindMap(mindMapData);
     } catch (error) {
         console.error("Error calling OpenAI API:", error);
     }
 };
-
-// 导出为PNG
 
 const updateMindMap = (data) => {
     // 假设 data 是思维导图的结构
@@ -89,28 +123,29 @@ onMounted(async () => {
             children: []
         },
         watermarkConfig: {
-            text: '极点AI搜索',
-            lineSpacing: 100,
-            textSpacing: 100,
-            angle: 30,
+            text: '极点AI搜索',  // 初始水印文字
+            lineSpacing: 150,    // 行间距
+            textSpacing: 100,    // 文字间距
+            angle: 30,           // 旋转角度
             textStyle: {
-                color: '#999',
-                opacity: 0.5,
-                fontSize: 14
+                color: '#999',   // 文字颜色
+                opacity: 0.2,    // 透明度
+                fontSize: 14     // 字体大小
             }
         },
     });
 });
 
-
+//接收消息
 watch(() => props.mindMapMessage, async (newVal) => {
-    console.log('Received mindMapMessage:', newVal);  // 打印接收到的信息
     if (newVal) {
         await makeMindMap(newVal);
     }
 }, { immediate: true });
 
 </script>
+
+
 <style scoped>
 #mindMap {
     margin-top: 10px;
@@ -119,18 +154,32 @@ watch(() => props.mindMapMessage, async (newVal) => {
     border-radius: 9px;
 }
 
-#mindMap * {
-    margin: 0;
-    padding: 0;
+.exportPng {
+    margin-top: 5px;
+    padding: 7px 15px;
+    background-color: #f8f9fb;
+    color: #000;
+    border: 1px solid #eeeeee;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.exportPng:hover {
+    background-color: #e0e0e0;
 }
 
 /* 移动端样式 */
 @media (max-width: 648px) {
     #mindMap {
-        margin-top: 10px;
-        width: 100%;
         height: 300px;
-        border-radius: 9px;
+    }
+
+    .exportPng {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
     }
 }
 </style>
