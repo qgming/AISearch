@@ -67,12 +67,15 @@
     <div class="settingBox" :class="themeStore.theme" @click="goToAbout">
       <p class="settingTitle">关于极点AI搜索</p>
     </div>
+    <div class="settingBox" :class="themeStore.theme" @click="goToPrivacy">
+      <p class="settingTitle">隐私政策</p>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { ElMessage,ElSwitch} from 'element-plus';
+import { ElMessage, ElSwitch } from 'element-plus';
 import { useRouter } from 'vue-router'; // 导入 useRouter
 import NavBar from '../components/NavBar.vue';
 import { useThemeStore } from '../store/theme';
@@ -102,6 +105,10 @@ const goToAbout = () => {
 };
 const goToAiSearch = () => {
   router.push('/search');
+};
+// 导航到隐私政策
+const goToPrivacy = () => {
+  router.push('/privacy');
 };
 
 // 大模型相关数据
@@ -166,7 +173,7 @@ onMounted(() => {
   if (savedWebSearch) {
     webSearch.value = JSON.parse(savedWebSearch);
   }
-  
+
   darkmodel.value = themeStore.theme === 'dark';
 
   // const savedBingbg = localStorage.getItem('bingbg');

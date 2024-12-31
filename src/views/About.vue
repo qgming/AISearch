@@ -38,6 +38,10 @@
         <p>联系方式:</p>
         <p>邮箱: qgming@qq.com</p>
       </div>
+      <div class="contactInfo">
+        <p>隐私政策:</p>
+        <p><router-link to="/privacy" @click="goToPrivacy">点击查看</router-link></p>
+      </div>
       <div class="copyright">
         <p> 2024 极点AI搜索. 保留所有权利。</p>
       </div>
@@ -68,6 +72,10 @@ const goToAbout = () => {
 // 导航到AI搜索页面
 const goToAiSearch = () => {
   router.push('/search');
+};
+// 导航到隐私政策
+const goToPrivacy = () => {
+  router.push('/privacy');
 };
 </script>
 
