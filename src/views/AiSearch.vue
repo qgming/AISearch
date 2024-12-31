@@ -15,7 +15,7 @@
                   src="/src/assets/copy.svg" alt="复制">
               </div>
               <div class="optionButton" :class="themeStore.theme" @click="sendMindMapMessage(message.content, index)">
-                <img src="/src/assets/chartbar.svg" alt="生成图表">
+                <img src="/src/assets/mindmap.svg" alt="生成图表">
               </div>
             </div>
             <div v-if="lastChartIndex === index">

@@ -6,7 +6,7 @@
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta16</p>
+      <p>beta17</p>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
