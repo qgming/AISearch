@@ -6,7 +6,7 @@
       <img src="/src/assets/send.svg" alt="" class="logo">
       <p class="topName">极点AI搜索</p>
       <p>1.0.0</p>
-      <p>beta17</p>
+      <p>beta18</p>
     </div>
     <div class="aboutBox" :class="themeStore.theme">
       <div class="aboutItem">
@@ -43,7 +43,7 @@
         <p><router-link to="/privacy" @click="goToPrivacy">点击查看</router-link></p>
       </div>
       <div class="copyright">
-        <p> 2024 极点AI搜索. 保留所有权利。</p>
+        <p>Copyright (c) 2024 - {{ new Date().getFullYear() }} 极点维度. 保留所有权利。</p>
       </div>
     </div>
   </div>
