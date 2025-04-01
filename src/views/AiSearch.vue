@@ -5,11 +5,24 @@
       <p class="title">极点AI搜索</p>
       <div ref="messagesContainer" class="messagesContainer">
         <SearchLink :searchResults="searchResults" />
-        <div v-for="(message, index) in messages" :key="index" class="message" :class="themeStore.theme">
-          <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标"
-            style="width: 24px; height: 24px; margin-right: 5px;" />
+
+        <div v-for="(message, index) in messages" :key="index" class="message" :class="[themeStore.theme]">
+          <img class="roleIcon" :src="message.role === 'user' ? '../logo.svg' : '../send.svg'" alt="角色图标" />
           <div>
-            <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="message.content" />
+            <!-- 推理内容区域 -->
+            <div v-if="message.reasoning" class="reasoning-section"
+              :class="{ 'collapsed': !message.isReasoningExpanded }">
+              <MdPreview v-if="message.isReasoningExpanded" class="md-preview reasoning"
+                :modelValue="message.reasoning" />
+              <div class="toggle-reasoning" @click="toggleReasoning(message)">
+                {{ message.isReasoningExpanded ? '收起思考过程' : '展开思考过程' }}
+              </div>
+            </div>
+
+            <!-- 最终回答区域 -->
+            <div class="final-section">
+              <MdPreview class="md-preview" :modelValue="message.finalAnswer" />
+            </div>
             <div class="contentOption">
               <div class="optionButton" :class="themeStore.theme" @click="copyContent(message.content)"><img
                   src="/src/assets/copy.svg" alt="复制">
@@ -23,8 +36,9 @@
             </div>
           </div>
         </div>
+
         <div v-if="streaming" class="streaming" :class="themeStore.theme">
-          <p>思考中...</p>
+          <p>思考中</p>
           <MdPreview class="md-preview" :class="themeStore.theme" :modelValue="assistantMessage" />
         </div>
       </div>
@@ -89,41 +103,37 @@ const goToAbout = () => {
 };
 
 const messagesContainer = ref(null);
-const messages = ref([]);
 const userInput = ref('');
+const messages = ref([]);
 const assistantMessage = ref('');
-const streaming = ref(false); // 新增流式输出标志
+const assistantReasoning = ref('');
+const streaming = ref(false);
 
-const onlineSwitch = ref(false); // 新增联网搜索开关
-const deepThinkingSwitch = ref(false); // 新增深度思考
+const onlineSwitch = ref(false);
+const deepThinkingSwitch = ref(false);
 
 const prompt = ref('')
-const lastChartIndex = ref(null); // 新增变量记录最后生成图表的消息索引
-const hasSearchedOnline = ref(false); // 新增标志变量
+const lastChartIndex = ref(null);
+const hasSearchedOnline = ref(false);
 
-const searchResults = ref([]); // 新增响应式数据
-const mindMapMessage = ref(''); // 定义 mindMapMessage 变量
+const searchResults = ref([]);
+const mindMapMessage = ref('');
 
-
-// 默认API配置
 const defaultApiKey = '03da359c49454d6734e2a5de8dbb9a37.kJEgAv0s4DdM9ti0';
 const defaultApiProvider = 'https://open.bigmodel.cn/api/paas/v4/';
 const defaultModel = 'glm-4-flash';
 
-// 配置
 const aiModel = ref('');
 const aiKey = ref('');
 const aiProvider = ref('');
 const webKey = ref('');
 
-// 大模型配置
 const openai = new OpenAI({
   baseURL: aiProvider.value || defaultApiProvider,
   apiKey: aiKey.value || defaultApiKey,
   dangerouslyAllowBrowser: true
 });
 
-// 发送消息
 async function sendMessage() {
   if (!userInput.value.trim()) {
     ElMessage({
@@ -133,35 +143,36 @@ async function sendMessage() {
     return;
   }
 
-  const userMessage = { role: "user", content: userInput.value };
+  const userMessage = {
+    role: "user",
+    content: userInput.value,
+    finalAnswer: userInput.value // 添加这行确保内容显示
+  };
   messages.value.push(userMessage);
 
   let response;
   if (onlineSwitch.value && !hasSearchedOnline.value) {
-    // 联网搜索
     const searchResponse = await searchOnline();
-    hasSearchedOnline.value = true; // 设置标志，防止后续再次联网搜索
+    hasSearchedOnline.value = true;
     try {
       response = await openai.chat.completions.create({
         messages: [
           {
-            role: "system", content: `你是由极点AI构建的AI搜索助手，你的任务是回答用户的问题。
-          
-          当你回答问题时，请遵循以下要求：
-          1. 撰写详细，准确且清晰的回答，必要时结合自身数据库。
-          2. 以客观，公正且专业的语气撰写，回答必须正确、准确。
-          3. 限制在1024个字符以内，以Markdown格式回答。
-          4. 不要提供与问题无关的信息，也不要重复内容。
-          5. 按引用编号格式[[x](link)]标注内容（Markdown格式），link是引用内容的链接，如果一句话来自多个内容，请列出所有适用编号，如[[2](link "title")][[5](link "title")]。
-          6. 除代码、特定名称和引用外，你的回答必须使用与问题相同的语言。
-          7. 请根据参考资料以及自身知识回答问题，并在每句话末尾引用相关内容（如适用）。
+            role: "system", content: `以下内容是基于用户发送的消息的搜索结果:
+            ${searchResponse}
+          在我给你的搜索结果中，每个结果都是[webpage X begin]...[webpage X end]格式的，X代表每篇文章的数字索引。请在适当的情况下在句子末尾引用上下文。请按照引用编号[X](url)的格式在答案中对应部分引用上下文。如果一句话源自多个上下文，请列出所有相关的引用编号，例如[3](url3)[5](url5)，切记不要将引用集中在最后返回引用编号，而是在答案对应部分列出。
+          在回答时，请注意以下几点：
+          - 今天是{cur_date}。
+          - 并非搜索结果的所有内容都与用户的问题密切相关，你需要结合问题，对搜索结果进行甄别、筛选。
+          - 对于列举类的问题（如列举所有航班信息），尽量将答案控制在10个要点以内，并告诉用户可以查看搜索来源、获得完整信息。优先提供信息完整、最相关的列举项；如非必要，不要主动告诉用户搜索结果未提供的内容。
+          - 对于创作类的问题（如写论文），请务必在正文的段落中引用对应的参考编号，例如[3](url3)[5](url5)，不能只在文章末尾引用。你需要解读并概括用户的题目要求，选择合适的格式，充分利用搜索结果并抽取重要信息，生成符合用户要求、极具思想深度、富有创造力与专业性的答案。你的创作篇幅需要尽可能延长，对于每一个要点的论述要推测用户的意图，给出尽可能多角度的回答要点，且务必信息量大、论述详尽。
+          - 如果回答很长，请尽量结构化、分段落总结。如果需要分点作答，尽量控制在5个点以内，并合并相关的内容。
+          - 对于客观类的问答，如果问题的答案非常简短，可以适当补充一到两句相关信息，以丰富内容。
+          - 你需要根据用户要求和回答内容选择合适、美观的回答格式，确保可读性强。
+           - 你的回答应该综合多个相关网页来回答，不能重复引用一个网页。
+          - 除非用户要求，否则你回答的语言需要和用户提问的语言保持一致。
 
-          参考资料集合：
-          ${searchResponse}
-
-          下面是用户问题，现在开始作答。` }, // 添加提示词
-          // { role: "assistant", content: searchResponse },
-          // { role: "user", content: userInput.value },
+          下面是用户问题，现在开始作答。` },
           ...messages.value,
         ],
         model: aiModel.value,
@@ -177,11 +188,10 @@ async function sendMessage() {
       return;
     }
   } else {
-    // 普通消息
     try {
       response = await openai.chat.completions.create({
         messages: [
-          { role: "system", content: prompt.value }, // 添加从本地获取的提示词
+          { role: "system", content: prompt.value },
           ...messages.value
         ],
         model: aiModel.value,
@@ -197,19 +207,49 @@ async function sendMessage() {
     }
   }
 
-  // 流式输出
   assistantMessage.value = '';
-  streaming.value = true; // 开始流式输出
-  for await (const chunk of response) {
-    if (!streaming.value) break; // 检查是否终止对话
-    assistantMessage.value += chunk.choices[0].delta.content || '';
+  assistantReasoning.value = '';
+  streaming.value = true;
+
+  const assistantMessageObj = {
+    role: "assistant",
+    content: '', // 添加这行确保内容显示
+    reasoning: '',
+    finalAnswer: '',
+    isReasoningExpanded: false
+  };
+  messages.value.push(assistantMessageObj);
+
+  try {
+    let isReasoningComplete = false; // 新增：标记推理是否完成
+
+    for await (const chunk of response) {
+      if (!streaming.value) break;
+
+      const newReasoning = chunk.choices[0].delta.reasoning_content || '';
+      const newContent = chunk.choices[0].delta.content || '';
+
+      // 分别处理推理内容和最终回答
+      if (newReasoning) {
+        assistantMessageObj.reasoning += newReasoning;
+      }
+      if (newContent) {
+        assistantMessageObj.finalAnswer += newContent;
+      }
+
+      // 强制触发视图更新
+      messages.value = [...messages.value];
+    }
+  } finally {
+    streaming.value = false;
+    userInput.value = '';
+    scrollToBottom();
   }
-  streaming.value = false; // 结束流式输出
+}
 
-  messages.value.push({ role: "assistant", content: assistantMessage.value });
-  userInput.value = '';
-
-  scrollToBottom();  // 自动滚动到底部
+// 在script部分添加这个方法
+function toggleReasoning(message) {
+  message.isReasoningExpanded = !message.isReasoningExpanded;
 }
 
 // 联网搜索
@@ -514,6 +554,44 @@ window.addEventListener('beforeunload', () => {
   background-color: #ffffff;
   border-radius: 9px;
   /* border: 1px solid #dfdfdf; */
+}
+
+.message.combined {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reasoning-section {
+  background-color: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.final-section {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.toggle-reasoning {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* 深色模式适配 */
+.dark .reasoning-section {
+  background-color: #2d2d2d;
+}
+
+.dark .final-section {
+  background-color: #1a1a1a;
 }
 
 .roleIcon {
